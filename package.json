@@ -17,6 +17,7 @@
   "license": "BSD-3-Clause",
   "preferGlobal": true,
   "dependencies": {
+    "async": "*",
     "cb-result": "*",
     "lodash": "*",
     "lru-cache" : "*",

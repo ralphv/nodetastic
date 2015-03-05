@@ -9,3 +9,6 @@ add comment headers to all files
 add close to server when we add startServer
 
 everthing through logger and not console.
+
+$inject should be changed.
+to simplify the services parameters events calling, pass $inject always, from there service can get whatever it needs.
