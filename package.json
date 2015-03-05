@@ -1,0 +1,36 @@
+{
+  "name": "nodetastic",
+  "version": "0.1.0",
+  "description": "A dependency injection http server with a twist, built on top of express",
+  "keywords": [
+    "express", "http", "server", "dependency", "injection"
+  ],
+  "homepage": "https://bitbucket.org/ralphv/nodetastic",
+  "author": "ralph varjabedian",
+  "directories": {
+    "lib": "./lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/ralphv/nodetastic.git"
+  },
+  "license": "BSD-3-Clause",
+  "preferGlobal": true,
+  "dependencies": {
+    "cb-result": "*",
+    "lodash": "*",
+    "lru-cache" : "*",
+    "colors" : "*"
+  },
+  "devDependencies": {
+    "should": "*",
+    "grunt": "^0.4.5",
+    "grunt-mocha-test": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-shell": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "main": "index.js"
+}

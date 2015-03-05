@@ -1,0 +1,9 @@
+add partial match switch
+add comment headers to all files
+/**
+ * Created by Ralph Varjabedian.
+ * nodetastic is licensed under the [BSD-3 License] http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE.
+ * do not remove this notice.
+ */
+
+ add close to server when we add startServer
