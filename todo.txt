@@ -6,4 +6,6 @@ add comment headers to all files
  * do not remove this notice.
  */
 
- add close to server when we add startServer
+add close to server when we add startServer
+
+everthing through logger and not console.
