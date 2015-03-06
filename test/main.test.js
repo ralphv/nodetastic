@@ -39,7 +39,7 @@ describe('testing nodetastic', function() {
         return 0;
       });
     }
-    catch (e) {
+    catch(e) {
       err = e;
     }
     assert(err);
@@ -52,8 +52,8 @@ describe('testing nodetastic', function() {
     mapper.injectReservedValue("$two", function() {
       return 2;
     });
-    mapper.injectReservedValue("$twocb", function(context, param, cb) {
-      cb(null, 2);
+    mapper.injectReservedValue("$twocb", function(context, param, $two, cb) {
+      cb(null, $two);
     });
     mapper.injectReservedValue("$null", function(context, param, cb) {
       cb(null, mapper.emptyValue);
@@ -133,11 +133,21 @@ describe('testing nodetastic', function() {
       cderror: function($cd_root, cb) {
         cb();
       },
+      error: function(cb) {
+        cb(cb_result.error("error message"));
+      },
+      errorraw: function(cb) {
+        cb("error message");
+      },
       simplecash: function($HttpCacheIndicator, cb) {
         cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"]));
       },
       simplecash1: function($HttpCacheIndicator, cb) {
         cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"], -1));
+      },
+      passivecash: function(cb) {
+        //<meta>{"ExpiresMinutes":60}</meta>
+        cb(cb_result.success({data: "data"}));
       },
       servercashset: function($cache$15, objData, cb) {
         $cache$15.set("objData", objData);
@@ -290,6 +300,13 @@ describe('testing nodetastic', function() {
     });
   });
 
+  it('testing helloname mocha post', function(done) {
+    httpHelper.createPost("/helloname").postJson({strName: "mocha"}, function(err, result) {
+      assert(result.data == "hello world: mocha");
+      done();
+    });
+  });
+
   it('testing helloname without param', function(done) {
     httpHelper.createGet("/helloname").getJson(function(err, result) {
       assert(!result.success);
@@ -300,6 +317,7 @@ describe('testing nodetastic', function() {
 
   it('testing helloint 1', function(done) {
     httpHelper.createGet("/helloint").getJson({nInt: 1}, function(err, result) {
+      assert(result.state);
       assert(result.data == "hello world: 1");
       done();
     });
@@ -368,6 +386,24 @@ describe('testing nodetastic', function() {
     });
   });
 
+  it('testing error', function(done) {
+    httpHelper.createGet("/error").getJson(function(err, result, res) {
+      assert(!result.success);
+      assert(result.errors[0].error == "error message");
+      assert(result.state);
+      httpHelper.createGet("/errorraw").getJson(function(err, result, res) {
+
+
+        console.log(result);
+
+        assert(!result.success);
+        assert(result.errors[0].error == "error message");
+        assert(result.state);
+        done();
+      });
+    });
+  });
+
   it('testing simplecash', function(done) {
     httpHelper.createGet("/simplecash").getJson(function(err, result, res) {
       assert(result.success);
@@ -392,6 +428,14 @@ describe('testing nodetastic', function() {
     });
   });
 
+  it('testing passivecash', function(done) {
+    httpHelper.createGet("/passivecash").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers["cache-control"] == "public, max-age=3600");
+      done();
+    });
+  });
+
   it('testing etagcash', function(done) {
     httpHelper.createGet("/etagcash").getJson(function(err, result, res) {
       assert(result.success);
@@ -412,18 +456,23 @@ describe('testing nodetastic', function() {
   });
 
   it('testing session', function(done) {
-    httpHelper.createGet("/login").getJson(function(err, result, res) {
-      assert(result.success);
-      var cookie = res.headers["set-cookie"];
-      assert(cookie);
-      httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
+    httpHelper.createGet("/logout").getJson(function(err, result) {
+      console.log(result);
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'invalid state, must be: loggedIn');
+      httpHelper.createGet("/login").getJson(function(err, result, res) {
         assert(result.success);
-        assert(result.data == true);
-        httpHelper.createGet("/logout").addHeader("cookie", cookie).getJson(function(err, result) {
-          httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
-            assert(result.success);
-            assert(!result.data);
-            done();
+        var cookie = res.headers["set-cookie"];
+        assert(cookie);
+        httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
+          assert(result.success);
+          assert(result.data == true);
+          httpHelper.createGet("/logout").addHeader("cookie", cookie).getJson(function(err, result) {
+            httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
+              assert(result.success);
+              assert(!result.data);
+              done();
+            });
           });
         });
       });
@@ -431,9 +480,9 @@ describe('testing nodetastic', function() {
   });
 
   it('testing servercash', function(done) {
-    httpHelper.createGet("/servercashset").getJson({objData: {"data": "cached"}}, function(err, result) {
+    httpHelper.createPost("/servercashset").postJson({objData: {"data": "cached"}}, function(err, result) {
       assert(result.success);
-      httpHelper.createGet("/servercashget").getJson({objData: {"data": "cached"}}, function(err, result) {
+      httpHelper.createPost("/servercashget").postJson({objData: {"data": "cached"}}, function(err, result) {
         assert(result.data && result.data.data == "cached");
         done();
       });
