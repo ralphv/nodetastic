@@ -107,6 +107,9 @@ describe('testing nodetastic', function() {
       path: {
         hello: function(cb) {
           cb(null, "hello world from path");
+        },
+        urlparams: function($urlParams, cb) {
+          cb(null, $urlParams);
         }
       },
       helloname: function(strName, cb) {
@@ -269,6 +272,19 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/path/hello").getJson(function(err, result) {
       assert(result.data == "hello world from path");
       done();
+    });
+  });
+
+  it('testing urlparams', function(done) {
+    httpHelper.createGet("/path/$12345/urlparams").getJson(function(err, result) {
+      assert(result.data.length == 1);
+      assert(result.data[0] == "12345");
+      httpHelper.createGet("/path/$111/$222/urlparams").getJson(function(err, result) {
+        assert(result.data.length == 2);
+        assert(result.data[0] == "111");
+        assert(result.data[1] == "222");
+        done();
+      });
     });
   });
 
