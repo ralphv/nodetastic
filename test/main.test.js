@@ -209,7 +209,7 @@ describe('testing nodetastic', function() {
         })
       }
     });
-    mapper.setGlobalPrefix("/rest");
+    mapper.setGlobalPrefix("/rest/");
     mapper.registerHandler("module1", {
       hello: function(cb) {
         cb(null, "hello world module1");
