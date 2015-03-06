@@ -59,6 +59,9 @@ describe('testing nodetastic', function() {
       helloname: function(strName, cb) {
         cb(null, "hello world: " + strName);
       },
+      helloint: function(nInt, cb) {
+        cb(null, "hello world: " + nInt);
+      }
     });
     mapper.registerHandler("module1", {
       hello: function(cb) {
@@ -151,9 +154,31 @@ describe('testing nodetastic', function() {
 
   it('testing helloname without param', function(done) {
     httpHelper.createGet("/helloname").getJson(function(err, result) {
-      console.log(result);
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'could not find function');
+      assert(result.errors[0].errorDetails == 'param [strName] not supplied');
+      done();
+    });
+  });
+
+  it('testing helloint 1', function(done) {
+    httpHelper.createGet("/helloint").getJson({nInt:1}, function(err, result) {
+      assert(result.data == "hello world: 1");
+      done();
+    });
+  });
+
+  it('testing helloint with invalid type', function(done) {
+    httpHelper.createGet("/helloint").getJson({nInt:"string"}, function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[string]');
+      done();
+    });
+  });
+
+  it('testing helloint with invalid type', function(done) {
+    httpHelper.createGet("/helloint").getJson({nInt:{}}, function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[{}]');
       done();
     });
   });
