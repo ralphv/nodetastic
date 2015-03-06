@@ -18,6 +18,21 @@ describe('testing nodetastic', function() {
   it('testing start server', function(done) {
     var nodetastic = require("../");
     var mapper = nodetastic.CreateNodeTastic();
+    mapper.injectReservedValue("$zero", function() {
+      return 0;
+    });
+    mapper.injectReservedValue("$zerocb", function(context, param, cb) {
+      cb(null, 0);
+    });
+    mapper.injectReservedValue("$two", function() {
+      return 2;
+    });
+    mapper.injectReservedValue("$twocb", function(context, param, cb) {
+      cb(null, 2);
+    });
+    mapper.injectReservedValue("$null", function(context, param, cb) {
+      cb(null, mapper.emptyValue);
+    });
     mapper.setTranslateResultFunction(function(res) {
       var response = {
         success: res.success,
@@ -64,6 +79,12 @@ describe('testing nodetastic', function() {
       },
       missing: function($na, cb) {
         cb();
+      },
+      zero: function($zero, $twocb, $null, cb) {
+        cb(null, $zero + " " + $twocb + " " + $null);
+      },
+      zerocb: function($zerocb, $two, $null, cb) {
+        cb(null, $zerocb + " " + $two + " " + $null);
       }
     });
     mapper.registerHandler("module1", {
@@ -190,6 +211,22 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/missing").getJson(function(err, result) {
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'param [$na] not supplied');
+      done();
+    });
+  });
+
+  it('testing zero', function(done) {
+    httpHelper.createGet("/zero").getJson(function(err, result) {
+      assert(result.success);
+      assert(result.data == "0 2 null");
+      done();
+    });
+  });
+
+  it('testing zerocb', function(done) {
+    httpHelper.createGet("/zerocb").getJson(function(err, result) {
+      assert(result.success);
+      assert(result.data == "0 2 null");
       done();
     });
   });
