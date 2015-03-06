@@ -33,6 +33,9 @@ describe('testing nodetastic', function() {
     mapper.injectReservedValue("$null", function(context, param, cb) {
       cb(null, mapper.emptyValue);
     });
+    mapper.injectReservedValue("$wrongnull", function(context, param, cb) {
+      cb(null, null);
+    });
     mapper.setTranslateResultFunction(function(res) {
       var response = {
         success: res.success,
@@ -85,6 +88,9 @@ describe('testing nodetastic', function() {
       },
       zerocb: function($zerocb, $two, $null, cb) {
         cb(null, $zerocb + " " + $two + " " + $null);
+      },
+      wrongnull: function($wrongnull, cb) {
+        cb();
       }
     });
     mapper.registerHandler("module1", {
@@ -227,6 +233,14 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/zerocb").getJson(function(err, result) {
       assert(result.success);
       assert(result.data == "0 2 null");
+      done();
+    });
+  });
+
+  it('testing zerocb', function(done) {
+    httpHelper.createGet("/wrongnull").getJson(function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'param [$wrongnull] not supplied');
       done();
     });
   });
