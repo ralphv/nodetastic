@@ -36,6 +36,15 @@ describe('testing nodetastic', function() {
     mapper.injectReservedValue("$wrongnull", function(context, param, cb) {
       cb(null, null);
     });
+    mapper.injectReservedValue("$cd_root", function(context, param, $cd_child1, cb) {
+      cb();
+    });
+    mapper.injectReservedValue("$cd_child1", function(context, param, $cd_child2, cb) {
+      cb();
+    });
+    mapper.injectReservedValue("$cd_child2", function(context, param, $cd_root, cb) {
+      cb();
+    });
     mapper.setTranslateResultFunction(function(res) {
       var response = {
         success: res.success,
@@ -90,6 +99,9 @@ describe('testing nodetastic', function() {
         cb(null, $zerocb + " " + $two + " " + $null);
       },
       wrongnull: function($wrongnull, cb) {
+        cb();
+      },
+      cderror: function($cd_root, cb) {
         cb();
       }
     });
@@ -245,5 +257,12 @@ describe('testing nodetastic', function() {
     });
   });
 
+  it('testing cderror', function(done) {
+    httpHelper.createGet("/cderror").getJson(function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].error == 'Circular dependency detected in reserved words for DynamicHttpLayer: $cd_root > $cd_child1 > $cd_child2 > $cd_root');
+      done();
+    });
+  });
 });
 
