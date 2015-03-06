@@ -149,6 +149,10 @@ describe('testing nodetastic', function() {
         //<meta>{"ExpiresMinutes":60}</meta>
         cb(cb_result.success({data: "data"}));
       },
+      passivecash1: function(cb) {
+        //<meta>{"ExpiresSeconds":60}</meta>
+        cb(cb_result.success({data: "data"}));
+      },
       servercashset: function($cache$15, objData, cb) {
         $cache$15.set("objData", objData);
         $cache$15.set(["objData", "one"], objData);
@@ -432,6 +436,14 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/passivecash").getJson(function(err, result, res) {
       assert(result.success);
       assert(res.headers["cache-control"] == "public, max-age=3600");
+      done();
+    });
+  });
+
+  it('testing passivecash1', function(done) {
+    httpHelper.createGet("/passivecash1").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers["cache-control"] == "public, max-age=60");
       done();
     });
   });
