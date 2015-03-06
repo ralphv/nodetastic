@@ -106,17 +106,26 @@ describe('testing nodetastic', function() {
         cb();
       },
       simplecash: function($HttpCacheIndicator, cb) {
-        cb($HttpCacheIndicator(cb_result.success({data:"data"}), ["key", "key1"]));
+        cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"]));
       },
       simplecash1: function($HttpCacheIndicator, cb) {
-        cb($HttpCacheIndicator(cb_result.success({data:"data"}), ["key", "key1"], -1));
+        cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"], -1));
       },
       etagcash: function($HttpCacheIndicator, $eTagChecksum, cb) {
         var cacheKey = ["key", "key1"];
-        if ($eTagChecksum && global.isChecksumEqual($eTagChecksum, cacheKey)) {
+        if($eTagChecksum && global.isChecksumEqual($eTagChecksum, cacheKey)) {
           return cb($HttpCacheIndicator(cb_result.success(), cacheKey, -1));
         }
-        cb($HttpCacheIndicator(cb_result.success({data:"data"}), cacheKey, -1));
+        cb($HttpCacheIndicator(cb_result.success({data: "data"}), cacheKey, -1));
+      },
+      manyreservedwords: function($request, $response, $session, $method, $path, $body, $query, $cache, $urlParams, $data, $inject, cb) {
+        $inject.get("$twocb", function(res) {
+          assert(res.data == 2);
+          $inject.get("$two", function(res) {
+            assert(res.data == 2);
+            cb();
+          })
+        })
       }
     });
     mapper.setGlobalPrefix("/rest");
@@ -130,6 +139,14 @@ describe('testing nodetastic', function() {
         }
       }
     });
+    var err;
+    try {
+      mapper.registerHandler("module1", {});
+    }
+    catch(e) {
+      err = e;
+    }
+    assert(err);
     mapper.registerHandler("module1/module2/", {
       hello: function(cb) {
         cb(null, "hello world module2");
@@ -203,7 +220,7 @@ describe('testing nodetastic', function() {
   });
 
   it('testing helloname mocha', function(done) {
-    httpHelper.createGet("/helloname").getJson({strName:"mocha"}, function(err, result) {
+    httpHelper.createGet("/helloname").getJson({strName: "mocha"}, function(err, result) {
       assert(result.data == "hello world: mocha");
       done();
     });
@@ -218,14 +235,14 @@ describe('testing nodetastic', function() {
   });
 
   it('testing helloint 1', function(done) {
-    httpHelper.createGet("/helloint").getJson({nInt:1}, function(err, result) {
+    httpHelper.createGet("/helloint").getJson({nInt: 1}, function(err, result) {
       assert(result.data == "hello world: 1");
       done();
     });
   });
 
   it('testing helloint with invalid type', function(done) {
-    httpHelper.createGet("/helloint").getJson({nInt:"string"}, function(err, result) {
+    httpHelper.createGet("/helloint").getJson({nInt: "string"}, function(err, result) {
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[string]');
       done();
@@ -233,7 +250,7 @@ describe('testing nodetastic', function() {
   });
 
   it('testing helloint with invalid type', function(done) {
-    httpHelper.createGet("/helloint").getJson({nInt:{}}, function(err, result) {
+    httpHelper.createGet("/helloint").getJson({nInt: {}}, function(err, result) {
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[{}]');
       done();
@@ -313,6 +330,13 @@ describe('testing nodetastic', function() {
         assert(res.statusCode == 304); // cached response
         done();
       });
+    });
+  });
+
+  it('testing manyreservedwords', function(done) {
+    httpHelper.createGet("/manyreservedwords").getJson(function(err, result) {
+      assert(result.success);
+      done()
     });
   });
 
