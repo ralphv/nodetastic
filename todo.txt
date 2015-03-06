@@ -20,11 +20,8 @@ check the services invokations
 
 map errors, no error codes
 
-setTemporaryHalt
-removeTemporaryHalt
-registerNewSessionFunction
-attachGlobalService
 attachService
+
 injectReservedValue without $ as name (try)
 injectParamPrefix
 try to access protected functions with state...

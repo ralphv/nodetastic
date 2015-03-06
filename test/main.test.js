@@ -5,6 +5,7 @@ var assert = require('assert');
 var path = require('path');
 var port = 4444;
 var cb_result = require("cb-result");
+var mapper;
 
 var HttpHelper = require('./helpers/HttpHelper');
 var httpHelper = new HttpHelper("localhost", port, {
@@ -18,7 +19,30 @@ describe('testing nodetastic', function() {
 
   it('testing start server', function(done) {
     var nodetastic = require("../");
-    var mapper = nodetastic.CreateNodeTastic({verbose:2});
+    mapper = nodetastic.CreateNodeTastic({verbose: 2});
+    mapper.registerNewSessionFunction(function($inject, cb) {
+      $inject.get("$session", cb_result.cb(cb, function($session) {
+        $session.set("newsession", "newsession");
+        cb();
+      }));
+    });
+    mapper.attachGlobalService(mapper.Services.StateService, {
+      states: ["loggedIn", "loggedOut"],
+      valid: {"loggedIn": ["loggedOut"], "loggedOut": ["loggedIn"]},
+      start: "loggedOut",
+      defaultMeta: "loggedOut" // no meta data on functions = must be logged in
+    });
+    mapper.attachGlobalService(mapper.Services.ExpiresService);
+    var err = null;
+    try {
+      mapper.injectReservedValue("zero", function() {
+        return 0;
+      });
+    }
+    catch (e) {
+      err = e;
+    }
+    assert(err);
     mapper.injectReservedValue("$zero", function() {
       return 0;
     });
@@ -125,14 +149,19 @@ describe('testing nodetastic', function() {
         $cache$15.get(["objData", "one"]);
         cb(cb_result.success($cache$15.get("objData")));
       },
-      login: function($session, cb) {
+      login: function($session, $state, cb) {
+        //<meta>{"StateService":"loggedOut"}</meta>
         $session.set("loggedIn", true);
+        $state.set("loggedIn");
         cb();
       },
       islogin: function($session, cb) {
+        //<meta>{"StateService":"any"}</meta>
         cb(cb_result.success($session.get("loggedIn")));
       },
-      logout: function($session, cb) {
+      logout: function($session, $state, cb) {
+        //<meta>{"StateService":"loggedIn"}</meta>
+        $state.set("loggedOut");
         $session.set("loggedIn", false);
         $session.del("loggedIn");
         var id = $session.getId();
@@ -173,7 +202,7 @@ describe('testing nodetastic', function() {
         }
       }
     });
-    var err;
+    err = null;
     try {
       mapper.registerHandler("module1", {});
     }
@@ -205,6 +234,7 @@ describe('testing nodetastic', function() {
 
   it('testing hello', function(done) {
     httpHelper.createGet("/hello").getJson(function(err, result) {
+      console.log(result);
       assert(result.data == "hello world");
       done();
     });
@@ -405,6 +435,18 @@ describe('testing nodetastic', function() {
       assert(result.success);
       httpHelper.createGet("/servercashget").getJson({objData: {"data": "cached"}}, function(err, result) {
         assert(result.data && result.data.data == "cached");
+        done();
+      });
+    });
+  });
+
+  it('testing setTemporaryHalt', function(done) {
+    mapper.setTemporaryHalt({"data": "server is down"});
+    httpHelper.createGet("/login").getJson(function(err, result) {
+      assert(result.data == "server is down");
+      httpHelper.createGet("/anything").getJson(function(err, result) {
+        mapper.removeTemporaryHalt();
+        assert(result.data == "server is down");
         done();
       });
     });
