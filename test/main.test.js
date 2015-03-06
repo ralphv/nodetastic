@@ -28,6 +28,26 @@ describe('testing nodetastic', function() {
         }
       }
     });
+    mapper.registerHandler("module1", {
+      hello: function(cb) {
+        cb(null, "hello world module1");
+      },
+      path: {
+        hello: function(cb) {
+          cb(null, "hello world module1 from path");
+        }
+      }
+    });
+    mapper.registerHandler("module1/module2", {
+      hello: function(cb) {
+        cb(null, "hello world module2");
+      },
+      path: {
+        hello: function(cb) {
+          cb(null, "hello world module2 from path");
+        }
+      }
+    });
     mapper.startServer(port, function() {
       done();
     });
@@ -50,6 +70,34 @@ describe('testing nodetastic', function() {
   it('testing hello from path', function(done) {
     httpHelper.createGet("/path/hello").getJson(function(err, result) {
       assert(result.data == "hello world from path");
+      done();
+    });
+  });
+
+  it('testing hello module1', function(done) {
+    httpHelper.createGet("/module1/hello").getJson(function(err, result) {
+      assert(result.data == "hello world module1");
+      done();
+    });
+  });
+
+  it('testing hello module1 from path', function(done) {
+    httpHelper.createGet("/module1/path/hello").getJson(function(err, result) {
+      assert(result.data == "hello world module1 from path");
+      done();
+    });
+  });
+
+  it('testing hello module2', function(done) {
+    httpHelper.createGet("/module1/module2/hello").getJson(function(err, result) {
+      assert(result.data == "hello world module2");
+      done();
+    });
+  });
+
+  it('testing hello module2 from path', function(done) {
+    httpHelper.createGet("/module1/module2/path/hello").getJson(function(err, result) {
+      assert(result.data == "hello world module2 from path");
       done();
     });
   });
