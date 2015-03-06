@@ -4,6 +4,7 @@ var should = require('should');
 var assert = require('assert');
 var path = require('path');
 var port = 4444;
+var cb_result = require("cb-result");
 
 var HttpHelper = require('./helpers/HttpHelper');
 var httpHelper = new HttpHelper("localhost", port, {
@@ -103,6 +104,12 @@ describe('testing nodetastic', function() {
       },
       cderror: function($cd_root, cb) {
         cb();
+      },
+      simplecash: function($HttpCacheIndicator, cb) {
+        cb($HttpCacheIndicator(cb_result.success({data:"data"}), ["key", "key1"]));
+      },
+      simplecash1: function($HttpCacheIndicator, cb) {
+        cb($HttpCacheIndicator(cb_result.success({data:"data"}), ["key", "key1"], -1));
       }
     });
     mapper.setGlobalPrefix("/rest");
@@ -263,6 +270,30 @@ describe('testing nodetastic', function() {
       assert(!result.success);
       assert(result.errors[0].error == 'Circular dependency detected in reserved words for DynamicHttpLayer: $cd_root > $cd_child1 > $cd_child2 > $cd_root');
       done();
+    });
+  });
+
+  it('testing simplecash', function(done) {
+    httpHelper.createGet("/simplecash").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers.etag);
+      var etag = res.headers.etag;
+      httpHelper.createGet("/simplecash").addHeader("if-none-match", etag).get(function(err, result, res) {
+        assert(res.statusCode == 304); // cached response
+        done();
+      });
+    });
+  });
+
+  it('testing simplecash1', function(done) {
+    httpHelper.createGet("/simplecash1").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers.etag);
+      var etag = res.headers.etag;
+      httpHelper.createGet("/simplecash1").addHeader("if-none-match", etag).get(function(err, result, res) {
+        assert(res.statusCode == 304); // cached response
+        done();
+      });
     });
   });
 });
