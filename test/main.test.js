@@ -110,6 +110,13 @@ describe('testing nodetastic', function() {
       },
       simplecash1: function($HttpCacheIndicator, cb) {
         cb($HttpCacheIndicator(cb_result.success({data:"data"}), ["key", "key1"], -1));
+      },
+      etagcash: function($HttpCacheIndicator, $eTagChecksum, cb) {
+        var cacheKey = ["key", "key1"];
+        if ($eTagChecksum && global.isChecksumEqual($eTagChecksum, cacheKey)) {
+          return cb($HttpCacheIndicator(cb_result.success(), cacheKey, -1));
+        }
+        cb($HttpCacheIndicator(cb_result.success({data:"data"}), cacheKey, -1));
       }
     });
     mapper.setGlobalPrefix("/rest");
@@ -296,5 +303,18 @@ describe('testing nodetastic', function() {
       });
     });
   });
+
+  it('testing etagcash', function(done) {
+    httpHelper.createGet("/etagcash").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers.etag);
+      var etag = res.headers.etag;
+      httpHelper.createGet("/etagcash").addHeader("if-none-match", etag).get(function(err, result, res) {
+        assert(res.statusCode == 304); // cached response
+        done();
+      });
+    });
+  });
+
 });
 
