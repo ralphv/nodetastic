@@ -61,6 +61,9 @@ describe('testing nodetastic', function() {
       },
       helloint: function(nInt, cb) {
         cb(null, "hello world: " + nInt);
+      },
+      missing: function($na, cb) {
+        cb();
       }
     });
     mapper.registerHandler("module1", {
@@ -179,6 +182,14 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/helloint").getJson({nInt:{}}, function(err, result) {
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[{}]');
+      done();
+    });
+  });
+
+  it('testing missing', function(done) {
+    httpHelper.createGet("/missing").getJson(function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'param [$na] not supplied');
       done();
     });
   });
