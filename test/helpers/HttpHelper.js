@@ -47,7 +47,7 @@ HttpHelper.prototype = {
       }
       if (params)
          options.path += "?" + self.getGetParams(params);
-      self.http.get(options, function(res) {
+      self.http.request(options, function(res) {
          res.fullBody = "";
          res.setEncoding('utf8');
          res.on("data", function(chunk) {
@@ -59,7 +59,7 @@ HttpHelper.prototype = {
          res.on("error", function(e) {
             cb(e);
          })
-      });
+      }).end();
    },
    getJson: function(params, cb) {
       if (arguments.length == 1) {

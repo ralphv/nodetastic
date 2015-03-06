@@ -252,8 +252,15 @@ describe('testing nodetastic', function() {
 
   it('testing hello', function(done) {
     httpHelper.createGet("/hello").getJson(function(err, result) {
-      console.log(result);
       assert(result.data == "hello world");
+      done();
+    });
+  });
+
+  it('testing hello OPTIONS', function(done) {
+    httpHelper.createGet("/hello").removeHeader("content-type").addHeader("access-control-request-headers", "-").setMethod("OPTIONS").get(function(err, result, res) {
+      assert(res.headers["access-control-allow-headers"]);
+      assert(res.headers["access-control-allow-methods"]);
       done();
     });
   });
@@ -408,10 +415,6 @@ describe('testing nodetastic', function() {
       assert(result.errors[0].error == "error message");
       assert(result.state);
       httpHelper.createGet("/errorraw").getJson(function(err, result, res) {
-
-
-        console.log(result);
-
         assert(!result.success);
         assert(result.errors[0].error == "error message");
         assert(result.state);
@@ -493,7 +496,6 @@ describe('testing nodetastic', function() {
 
   it('testing session', function(done) {
     httpHelper.createGet("/logout").getJson(function(err, result) {
-      console.log(result);
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'invalid state, must be: loggedIn');
       httpHelper.createGet("/login").getJson(function(err, result, res) {
