@@ -111,6 +111,17 @@ describe('testing nodetastic', function() {
       simplecash1: function($HttpCacheIndicator, cb) {
         cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"], -1));
       },
+      login: function($session, cb) {
+        $session.set("loggedIn", true);
+        cb();
+      },
+      islogin: function($session, cb) {
+        cb(cb_result.success($session.get("loggedIn")));
+      },
+      logout: function($session, cb) {
+        $session.set("loggedIn", false);
+        cb();
+      },
       etagcash: function($HttpCacheIndicator, $eTagChecksum, cb) {
         var cacheKey = ["key", "key1"];
         if($eTagChecksum && global.isChecksumEqual($eTagChecksum, cacheKey)) {
@@ -123,7 +134,10 @@ describe('testing nodetastic', function() {
           assert(res.data == 2);
           $inject.get("$two", function(res) {
             assert(res.data == 2);
-            cb();
+            $inject.get("$null", function(res) {
+              assert(res.data == null);
+              cb();
+            })
           })
         })
       }
@@ -337,6 +351,25 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/manyreservedwords").getJson(function(err, result) {
       assert(result.success);
       done()
+    });
+  });
+
+  it('testing session', function(done) {
+    httpHelper.createGet("/login").getJson(function(err, result, res) {
+      assert(result.success);
+      var cookie = res.headers["set-cookie"];
+      assert(cookie);
+      httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
+        assert(result.success);
+        assert(result.data == true);
+        httpHelper.createGet("/logout").addHeader("cookie", cookie).getJson(function(err, result) {
+          httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
+            assert(result.success);
+            assert(result.data == false);
+            done();
+          });
+        });
+      });
     });
   });
 
