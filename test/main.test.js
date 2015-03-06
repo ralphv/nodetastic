@@ -90,6 +90,9 @@ describe('testing nodetastic', function() {
       helloint: function(nInt, cb) {
         cb(null, "hello world: " + nInt);
       },
+      helloobj: function(objData, cb) {
+        cb(null, "hello world: " + objData.data);
+      },
       missing: function($na, cb) {
         cb();
       },
@@ -120,7 +123,13 @@ describe('testing nodetastic', function() {
       },
       logout: function($session, cb) {
         $session.set("loggedIn", false);
-        cb();
+        $session.del("loggedIn");
+        var id = $session.getId();
+        var core = $session.getCoreSession();
+        assert($session.isValid());
+        $session.destroy();
+        assert(!$session.isValid());
+        cb(null, id);
       },
       etagcash: function($HttpCacheIndicator, $eTagChecksum, cb) {
         var cacheKey = ["key", "key1"];
@@ -255,6 +264,13 @@ describe('testing nodetastic', function() {
     });
   });
 
+  it('testing helloobj', function(done) {
+    httpHelper.createGet("/helloobj").getJson({objData: {data:"obj"}}, function(err, result) {
+      assert(result.data == "hello world: obj");
+      done();
+    });
+  });
+
   it('testing helloint with invalid type', function(done) {
     httpHelper.createGet("/helloint").getJson({nInt: "string"}, function(err, result) {
       assert(!result.success);
@@ -365,7 +381,7 @@ describe('testing nodetastic', function() {
         httpHelper.createGet("/logout").addHeader("cookie", cookie).getJson(function(err, result) {
           httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
             assert(result.success);
-            assert(result.data == false);
+            assert(!result.data);
             done();
           });
         });
