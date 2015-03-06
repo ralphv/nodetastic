@@ -145,6 +145,9 @@ describe('testing nodetastic', function() {
       simplecash1: function($HttpCacheIndicator, cb) {
         cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"], -1));
       },
+      simplecash2: function($HttpCacheIndicator, cb) {
+        cb($HttpCacheIndicator(cb_result.success({data: "data"})));
+      },
       passivecash: function(cb) {
         //<meta>{"ExpiresMinutes":60}</meta>
         cb(cb_result.success({data: "data"}));
@@ -335,6 +338,14 @@ describe('testing nodetastic', function() {
     });
   });
 
+  it('testing helloobj with invalid object', function(done) {
+    httpHelper.createGet("/helloobj").getJson({objData: "invalid"}, function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'param validation failed name[objData] value[invalid]');
+      done();
+    });
+  });
+
   it('testing helloint with invalid type', function(done) {
     httpHelper.createGet("/helloint").getJson({nInt: "string"}, function(err, result) {
       assert(!result.success);
@@ -427,6 +438,18 @@ describe('testing nodetastic', function() {
       assert(res.headers.etag);
       var etag = res.headers.etag;
       httpHelper.createGet("/simplecash1").addHeader("if-none-match", etag).get(function(err, result, res) {
+        assert(res.statusCode == 304); // cached response
+        done();
+      });
+    });
+  });
+
+  it('testing simplecash2', function(done) {
+    httpHelper.createGet("/simplecash2").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers.etag);
+      var etag = res.headers.etag;
+      httpHelper.createGet("/simplecash2").addHeader("if-none-match", etag).get(function(err, result, res) {
         assert(res.statusCode == 304); // cached response
         done();
       });
