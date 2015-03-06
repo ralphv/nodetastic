@@ -18,7 +18,7 @@ describe('testing nodetastic', function() {
 
   it('testing start server', function(done) {
     var nodetastic = require("../");
-    var mapper = nodetastic.CreateNodeTastic();
+    var mapper = nodetastic.CreateNodeTastic({verbose:2});
     mapper.injectReservedValue("$zero", function() {
       return 0;
     });
@@ -46,6 +46,7 @@ describe('testing nodetastic', function() {
     mapper.injectReservedValue("$cd_child2", function(context, param, $cd_root, cb) {
       cb();
     });
+    mapper.setTranslateResultFunction();
     mapper.setTranslateResultFunction(function(res) {
       var response = {
         success: res.success,
@@ -113,6 +114,16 @@ describe('testing nodetastic', function() {
       },
       simplecash1: function($HttpCacheIndicator, cb) {
         cb($HttpCacheIndicator(cb_result.success({data: "data"}), ["key", "key1"], -1));
+      },
+      servercashset: function($cache$15, objData, cb) {
+        $cache$15.set("objData", objData);
+        $cache$15.set(["objData", "one"], objData);
+        cb();
+      },
+      servercashget: function($cache$15, cb) {
+        $cache$15.has("objData");
+        $cache$15.get(["objData", "one"]);
+        cb(cb_result.success($cache$15.get("objData")));
       },
       login: function($session, cb) {
         $session.set("loggedIn", true);
@@ -265,7 +276,7 @@ describe('testing nodetastic', function() {
   });
 
   it('testing helloobj', function(done) {
-    httpHelper.createGet("/helloobj").getJson({objData: {data:"obj"}}, function(err, result) {
+    httpHelper.createGet("/helloobj").getJson({objData: {data: "obj"}}, function(err, result) {
       assert(result.data == "hello world: obj");
       done();
     });
@@ -385,6 +396,16 @@ describe('testing nodetastic', function() {
             done();
           });
         });
+      });
+    });
+  });
+
+  it('testing servercash', function(done) {
+    httpHelper.createGet("/servercashset").getJson({objData: {"data": "cached"}}, function(err, result) {
+      assert(result.success);
+      httpHelper.createGet("/servercashget").getJson({objData: {"data": "cached"}}, function(err, result) {
+        assert(result.data && result.data.data == "cached");
+        done();
       });
     });
   });

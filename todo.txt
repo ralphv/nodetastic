@@ -19,3 +19,20 @@ get survey is not working
 check the services invokations
 
 map errors, no error codes
+
+setTemporaryHalt
+removeTemporaryHalt
+registerNewSessionFunction
+attachGlobalService
+attachService
+injectReservedValue without $ as name (try)
+injectParamPrefix
+try to access protected functions with state...
+try to change state and access those functions again
+try to use passive caching
+a function that sends result.error from within it
+another that sends error, but not wrapped
+$getFunction
+$authorizeFunction
+send some data with POST
+create reservedValues with proper depedency on another
