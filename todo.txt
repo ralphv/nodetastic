@@ -17,3 +17,5 @@ to simplify the services parameters events calling, pass $inject always, from th
 state not returned
 get survey is not working
 check the services invokations
+
+map errors, no error codes
