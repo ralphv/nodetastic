@@ -169,8 +169,9 @@ describe('testing nodetastic', function() {
         $state.set("loggedIn");
         cb();
       },
-      islogin: function($session, cb) {
+      islogin: function($session, $state, cb) {
         //<meta>{"StateService":"any"}</meta>
+        assert($session.get("loggedIn") ? $state.get() == "loggedIn" : $state.get() == "loggedOut");
         cb(cb_result.success($session.get("loggedIn")));
       },
       logout: function($session, $state, cb) {
