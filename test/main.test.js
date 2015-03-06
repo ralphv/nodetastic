@@ -21,6 +21,11 @@ describe('testing nodetastic', function() {
     mapper.registerHandler("", {
       hello: function(cb) {
         cb(null, "hello world");
+      },
+      path: {
+        hello: function(cb) {
+          cb(null, "hello world from path");
+        }
       }
     });
     mapper.startServer(port, function() {
@@ -37,8 +42,14 @@ describe('testing nodetastic', function() {
 
   it('testing hello', function(done) {
     httpHelper.createGet("/hello").getJson(function(err, result) {
-      console.log(result);
       assert(result.data == "hello world");
+      done();
+    });
+  });
+
+  it('testing hello from path', function(done) {
+    httpHelper.createGet("/path/hello").getJson(function(err, result) {
+      assert(result.data == "hello world from path");
       done();
     });
   });
