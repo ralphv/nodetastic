@@ -53,51 +53,58 @@ describe('testing nodetastic', function() {
     });
   });
 
-  it('testing ping', function(done) {
-    httpHelper.createGet("/ping").getJson(function(err, result) {
-      assert(result.date);
-      done();
-    });
-  });
+  //it('testing ping', function(done) {
+  //  httpHelper.createGet("/ping").getJson(function(err, result) {
+  //    assert(result.date);
+  //    done();
+  //  });
+  //});
+  //
+  //it('testing hello', function(done) {
+  //  httpHelper.createGet("/hello").getJson(function(err, result) {
+  //    assert(result.data == "hello world");
+  //    done();
+  //  });
+  //});
+  //
+  //it('testing hello from path', function(done) {
+  //  httpHelper.createGet("/path/hello").getJson(function(err, result) {
+  //    assert(result.data == "hello world from path");
+  //    done();
+  //  });
+  //});
+  //
+  //it('testing hello module1', function(done) {
+  //  httpHelper.createGet("/module1/hello").getJson(function(err, result) {
+  //    assert(result.data == "hello world module1");
+  //    done();
+  //  });
+  //});
+  //
+  //it('testing hello module1 from path', function(done) {
+  //  httpHelper.createGet("/module1/path/hello").getJson(function(err, result) {
+  //    assert(result.data == "hello world module1 from path");
+  //    done();
+  //  });
+  //});
+  //
+  //it('testing hello module2', function(done) {
+  //  httpHelper.createGet("/module1/module2/hello").getJson(function(err, result) {
+  //    assert(result.data == "hello world module2");
+  //    done();
+  //  });
+  //});
+  //
+  //it('testing hello module2 from path', function(done) {
+  //  httpHelper.createGet("/module1/module2/path/hello").getJson(function(err, result) {
+  //    assert(result.data == "hello world module2 from path");
+  //    done();
+  //  });
+  //});
 
-  it('testing hello', function(done) {
-    httpHelper.createGet("/hello").getJson(function(err, result) {
-      assert(result.data == "hello world");
-      done();
-    });
-  });
-
-  it('testing hello from path', function(done) {
-    httpHelper.createGet("/path/hello").getJson(function(err, result) {
-      assert(result.data == "hello world from path");
-      done();
-    });
-  });
-
-  it('testing hello module1', function(done) {
-    httpHelper.createGet("/module1/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module1");
-      done();
-    });
-  });
-
-  it('testing hello module1 from path', function(done) {
-    httpHelper.createGet("/module1/path/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module1 from path");
-      done();
-    });
-  });
-
-  it('testing hello module2', function(done) {
-    httpHelper.createGet("/module1/module2/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module2");
-      done();
-    });
-  });
-
-  it('testing hello module2 from path', function(done) {
-    httpHelper.createGet("/module1/module2/path/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module2 from path");
+  it('testing invalid function', function(done) {
+    httpHelper.createGet("/non-exist").get(function(err, result) {
+      console.log(err, result);
       done();
     });
   });
