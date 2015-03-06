@@ -55,7 +55,10 @@ describe('testing nodetastic', function() {
         hello: function(cb) {
           cb(null, "hello world from path");
         }
-      }
+      },
+      helloname: function(strName, cb) {
+        cb(null, "hello world: " + strName);
+      },
     });
     mapper.registerHandler("module1", {
       hello: function(cb) {
@@ -138,5 +141,22 @@ describe('testing nodetastic', function() {
       done();
     });
   });
+
+  it('testing helloname mocha', function(done) {
+    httpHelper.createGet("/helloname").getJson({strName:"mocha"}, function(err, result) {
+      assert(result.data == "hello world: mocha");
+      done();
+    });
+  });
+
+  it('testing helloname without param', function(done) {
+    httpHelper.createGet("/helloname").getJson(function(err, result) {
+      console.log(result);
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'could not find function');
+      done();
+    });
+  });
+
 });
 
