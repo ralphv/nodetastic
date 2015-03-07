@@ -1,5 +1,7 @@
 to release:
 
+make sure discovery is done once
+
 unit tests:
 attachService
 injectParamPrefix
