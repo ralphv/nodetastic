@@ -10,8 +10,7 @@ module.exports = {
   "allowedUntyped": true,
   "disable304Caching": false,
   "httpCache": 60,
-  "resultVerbose": true,
-  "httpVerbose": 2,
+  "httpVerbose": 1,
   "cookieSecret": "1234567890QWERTY",
   "cookieMaxAgeMinutes": 30
 };
