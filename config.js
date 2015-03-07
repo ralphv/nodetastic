@@ -5,13 +5,29 @@
  */
 
 module.exports = {
+  // maximum number of distinct cache objects (each having different expire time)
   "cacheMaxPoolSize": 15,
+
+  // maximum number of objects that lru-cache (server side cashe) can retain
   "cacheMaxItems": 1000,
+
+  // if set to false, it will not allow parameters without the hungarian notation
+  // thus effectively forcing all parameters to have type checking
   "allowedUntyped": true,
+
+  // for purpose of development
   "disable304Caching": false,
+
+  // the default httpCache is 60 seconds
   "httpCache": 60,
+
+  // values of 0,1,2
   "httpVerbose": 1,
+
+  // the default cookie secret, it is advisable to use setOptions with a new cookieSecret
   "cookieSecret": "1234567890QWERTY",
+
+  // session timeout
   "cookieMaxAgeMinutes": 30
 };
 
