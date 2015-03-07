@@ -1,11 +1,6 @@
 /**
- * Created by Ralph Varjabedian.
- * nodetastic is licensed under the [BSD-3 License] http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE.
- * do not remove this notice.
- */
-
-/**
- * v 1.05
+ * Created by Ralph Varjabedian on 3/31/14.
+ * v 1.06
  *
  * A generic file that reads command line arguments and matches them against values in ./config.js
  * If something is found there, it will be modified according to it's proper type
@@ -16,16 +11,11 @@
  * for strings with spaces, the command line will be: "ref=this is the new string value"
  *
  */
-'use strict';
 
 var assert = require("assert");
 var config = require("./config.js");
-var logger;
-try {
-  logger = require("./lib/logger.js");
-} catch(err) {
-  logger = { info: console.log };
-}
+var logger = logger = {info: console.log};
+try { logger = require("do.logger"); } catch(err) {}
 
 var projectName = __dirname.substring(__dirname.lastIndexOf("/") + 1);
 logger.info("cmd_to_config: scanning command line arguments for ./config.js matches for project: " + projectName);
