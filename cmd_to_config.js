@@ -86,5 +86,6 @@ process.argv.forEach(function(val) {
 logger.info("cmd_to_config: done scanning for: " + projectName);
 
 module.exports = function(opt) {
+  logger.info("cmd_to_config: setting options", JSON.stringify(opt));
   _.merge(config, opt);
 };
