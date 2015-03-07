@@ -16,6 +16,7 @@
 * Advanced meta-data per function (Attributes in C#/Annotations in JAVA) via specially formatted embedded comments.
 * Parameters of functions are either reserved words (services) or GET/POST parameters.
 * Basic GET/POST parameters are automatically checked and can be type checked as well via hungarian notation.
+* Path is deduced from the nesting structure of handlers.
 * If you are familiar with AngularJS, you will feel right at home.
 * In theory your code can be used by multiple transport layers (other than http) because of the abstraction provided.
 * Support for client side caching (304) and server side cashing.
@@ -103,6 +104,8 @@ They will bind your code with http related concepts and break the abstraction.
     * $query: Data passed through query parameters (GET)
 
 ### API
+
+(details will follow)
 
     setOptions
     CreateNodeTastic
