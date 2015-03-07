@@ -1,7 +1,6 @@
 to release:
 map errors, no error codes
-add description to config.js
-
+                         resultVerbose?
 
 unit tests:
 attachService

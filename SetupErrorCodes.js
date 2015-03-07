@@ -4,11 +4,11 @@
  * do not remove this notice.
  */
 
-var result = require("cb-result");
+var errors = require("cb-result").errors;
 
 /* code, enm, desc, regex */
-//result.errors.add();
-
-//result.errors.add({code: 100, enum: "failedAuthentication", desc: "failed authentication"});
-//result.errors.add(101, "failedAuthorization", "failed authorization");
-//result.errors.add(102, "dbIndexDuplicate", "failed db operation due to index restriction", /E11000/);
+errors.add({code: 400, enum: "missingParameter", desc: "missing parameter", ext: {httpCode: 400}});
+errors.add({code: 401, enum: "invalidParameterType", desc: "invalid parameter type", ext: {httpCode: 400}});
+errors.add({code: 402, enum: "invalidState", desc: "invalid state for function", ext: {httpCode: 403}});
+errors.add({code: 403, enum: "notAuthorizedPath", desc: "unauthorized url/function", ext: {httpCode: 403}});
+errors.add({code: 404, enum: "invalidPath", desc: "invalid url/function", ext: {httpCode: 400}});
