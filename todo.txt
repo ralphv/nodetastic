@@ -1,6 +1,4 @@
 to release:
-map errors, no error codes
-                         resultVerbose?
 
 unit tests:
 attachService
