@@ -232,6 +232,12 @@ describe('testing nodetastic', function() {
     }
     assert(err);
     mapper.registerHandler("module1/module2/", {
+      $getFunction: function(data, cb) {
+        if (data.functionName == "dynamic") {
+          return cb(cb_result.success({fn:function(cb){cb(null,"dynamic");}}));
+        }
+        cb();
+      },
       hello: function(cb) {
         cb(null, "hello world module2");
       },
@@ -305,6 +311,13 @@ describe('testing nodetastic', function() {
   it('testing hello module2', function(done) {
     httpHelper.createGet("/rest/module1/module2/hello").getJson(function(err, result) {
       assert(result.data == "hello world module2");
+      done();
+    });
+  });
+
+  it('testing dynamic module2', function(done) {
+    httpHelper.createGet("/rest/module1/module2/dynamic").getJson(function(err, result) {
+      assert(result.data == "dynamic");
       done();
     });
   });
