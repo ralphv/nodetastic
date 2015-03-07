@@ -234,7 +234,7 @@ describe('testing nodetastic', function() {
     mapper.registerHandler("module1/module2/", {
       $getFunction: function(data, cb) {
         if (data.functionName == "dynamic") {
-          return cb(cb_result.success({fn:function(cb){cb(null,"dynamic");}}));
+          return cb(cb_result.success({fn:function(cb){cb(null,"dynamic");}, functionName:"dynamic", urlParts:[]}));
         }
         cb();
       },
