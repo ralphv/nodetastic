@@ -15,17 +15,20 @@
 * Parameters of functions are either reserved words (services) or GET/POST parameters.
 * Basic GET/POST parameters are automatically checked and can be type checked as well.
 * If you are familiar with AngularJS, you will feel right at home.
-* In theory your code can be used by multiple transport layers (other than http) because of the abstraction the engine provides.
+* In theory your code can be used by multiple transport layers (other than http) because of the abstraction provided.
 * Support for client side caching (304) and server side cashing.
 * Support for integrated socket.io handling.
 * Support for side loading services that can control the flow of requests/responses.
 * Built on top of express, it will automatically detect express 3 vs express 4.
+* Built in server or integrate with your own setup.
 
 ### Getting started
 
     $ npm install -g nodetastic
 
 Simple examples:
+
+
 
 ### The command line
 

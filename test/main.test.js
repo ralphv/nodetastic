@@ -25,7 +25,7 @@ describe('testing nodetastic', function() {
 
   it('testing start server', function(done) {
     var nodetastic = require("../");
-    mapper = nodetastic.CreateNodeTastic({verbose: 2});
+    mapper = nodetastic.CreateNodeTastic();
     mapper.registerNewSessionFunction(function($inject, cb) {
       $inject.get("$session", cb_result.cb(cb, function($session) {
         $session.set("newsession", "newsession");
