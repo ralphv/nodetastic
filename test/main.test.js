@@ -100,7 +100,7 @@ describe('testing nodetastic', function() {
       }
       return response;
     });
-    mapper.registerHandler("", {
+    mapper.registerHandler({
       hello: function(cb) {
         cb(null, "hello world");
       },
@@ -233,13 +233,13 @@ describe('testing nodetastic', function() {
     assert(err);
     mapper.registerHandler("module1/module2/", {
       $getFunction: function(data, cb) {
-        if (data.functionName == "dynamic") {
-          return cb(cb_result.success({fn:function(cb){cb(null,"dynamic");}, functionName:"dynamic", urlParts:[]}));
+        if(data.functionName == "dynamic") {
+          return cb(cb_result.success({fn: function(cb) {cb(null, "dynamic");}, functionName: "dynamic", urlParts: []}));
         }
         cb();
       },
       $authorizeFunction: function(context, cb) {
-        if (context.functionName == "noauth") {
+        if(context.functionName == "noauth") {
           return cb(cb_result.success(false));
         }
         cb(cb_result.success(true));
