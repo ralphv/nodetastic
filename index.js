@@ -4,6 +4,7 @@
  * do not remove this notice.
  */
 
+require("./SetupErrorCodes.js");
 var setOptions = require("./cmd_to_config");
 module.exports = require("./lib/");
 module.exports.setOptions = setOptions;

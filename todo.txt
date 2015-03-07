@@ -1,24 +1,13 @@
-add partial match switch
-add comment headers to all files
-/**
- * Created by Ralph Varjabedian.
- * nodetastic is licensed under the [BSD-3 License] http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE.
- * do not remove this notice.
- */
-
-add close to server when we add startServer
-
-everthing through logger and not console.
-
-$inject should be changed.
-to simplify the services parameters events calling, pass $inject always, from there service can get whatever it needs.
-
-
-state not returned
-get survey is not working
-check the services invokations
-
+to release:
+fix dependencies correctly (test)
 map errors, no error codes
+add comment headers to all files
 
+
+unit tests:
 attachService
 injectParamPrefix
+
+future:
+add partial match switch
+add that verbose that prints out command structures via command line
