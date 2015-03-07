@@ -238,8 +238,17 @@ describe('testing nodetastic', function() {
         }
         cb();
       },
+      $authorizeFunction: function(context, cb) {
+        if (context.functionName == "noauth") {
+          return cb(cb_result.success(false));
+        }
+        cb(cb_result.success(true));
+      },
       hello: function(cb) {
         cb(null, "hello world module2");
+      },
+      noauth: function(cb) {
+        cb();
       },
       path: {
         hello: function(cb) {
@@ -318,6 +327,14 @@ describe('testing nodetastic', function() {
   it('testing dynamic module2', function(done) {
     httpHelper.createGet("/rest/module1/module2/dynamic").getJson(function(err, result) {
       assert(result.data == "dynamic");
+      done();
+    });
+  });
+
+  it('testing noauth module2', function(done) {
+    httpHelper.createGet("/rest/module1/module2/noauth ").getJson(function(err, result) {
+      assert(!result.success);
+      assert(result.errors[0].errorDetails == 'authorization failed');
       done();
     });
   });
