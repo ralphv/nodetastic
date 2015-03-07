@@ -1,6 +1,12 @@
 /**
+ * Created by Ralph Varjabedian.
+ * nodetastic is licensed under the [BSD-3 License] http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE.
+ * do not remove this notice.
+ */
+
+/**
  * Created by Ralph Varjabedian on 3/31/14.
- * v 1.06
+ * v 1.07
  *
  * A generic file that reads command line arguments and matches them against values in ./config.js
  * If something is found there, it will be modified according to it's proper type
@@ -14,6 +20,7 @@
 
 var assert = require("assert");
 var config = require("./config.js");
+var _ = require("lodash");
 var logger = logger = {info: console.log};
 try { logger = require("do.logger"); } catch(err) {}
 
@@ -78,3 +85,6 @@ process.argv.forEach(function(val) {
 });
 logger.info("cmd_to_config: done scanning for: " + projectName);
 
+module.exports = function(opt) {
+  _.merge(config, opt);
+};

@@ -4,6 +4,7 @@
  * do not remove this notice.
  */
 
-require("./cmd_to_config");
+var setOptions = require("./cmd_to_config");
 module.exports = require("./lib/");
-//*/ add setOptions function that will automatically update options from the function as needed
+module.exports.setOptions = setOptions;
+//set options via command lines or via setOptions
