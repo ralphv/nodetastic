@@ -2,6 +2,8 @@ to release:
 fix dependencies correctly (test)
 map errors, no error codes
 add comment headers to all files
+add description to config.js
+attachHandler take 1 argument
 
 
 unit tests:
