@@ -19,6 +19,11 @@
   "dependencies": {
     "async": "*",
     "cb-result": "*",
+    "express": "*",
+    "express-session": "*",
+    "compression": "*",
+    "jsonschema": "*",
+    "body-parser": "*",
     "lodash": "*",
     "lru-cache" : "*",
     "colors" : "*"
