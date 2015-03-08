@@ -4,6 +4,7 @@
 
 * [Features](#features)
 * [Getting started](#getting-started)
+* [Samples](#samples)
 * [The command line](#the-command-line)
 * [Reserved Values](#reserved-values)
 * [API](#api)
@@ -64,7 +65,29 @@ Simple example:
 
     mapper.startServer(3333);
 
-More samples and advanced examples can be found under samples folder.
+### Samples
+
+* [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
+Basic sample (getting started).
+
+* [Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
+Register multiple handlers with different prefixes.
+
+* [Sample3: new session initializer](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample3-reg-new-session-fn.js)
+Register new session function that gets called on new sessions, get a chance to initialize code as you need.
+
+* [Sample4: states, loggedIn, loggedOut and access control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample4-states-login-logout.js)
+Make use of the service "StateService", define two basic states. Control access to APIs based on current state.
+
+* [Sample5: make use of meta-data for simple cash control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample5-meta-data-expires.js)
+Make use of the meta-data feature in nodetastic, use the service "ExpiresService" to provide simple cash control.
+
+* [Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
+See how easy it is to add your own set of reserved words and consume them easily in your functions.
+The best of dependency injection at work.
+
+* [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
+Multiple levels of cash control.
 
 ### The command line
 
@@ -83,25 +106,25 @@ You can add your own reserved values (i.e. factory in AngularJS) via the api fun
 Reserved words always start with $sign, otherwise it will be a GET/POST parameter.
 The set of built in reserved words:
 
-    * $session: An object that provides access to session variables via setters/getters
-    * $eTagChecksum: The passed etag that the client passes with the request
-    * $cache$[XX]: Access to server side cache, the XX is the number of minutes. (ex: $cache$15, $cache$30)
-    * $files: Access to uploaded files
-    * $data: GET/POST data for those parameters that are not always mandatory
-    * $urlParams: Data embedded in path parameters by preceding the path part with a $ sign ex: /path/$param1/get
-    * $HttpCacheIndicator: A helper class for controlling client side caching (304)
-    * $inject: Provides access to other reserved words
-    * $socket: emit data to socket.io (only supported with express4 + socket.io integration)
+    $session: An object that provides access to session variables via setters/getters
+    $eTagChecksum: The passed etag that the client passes with the request
+    $cache$[XX]: Access to server side cache, the XX is the number of minutes. (ex: $cache$15, $cache$30)
+    $files: Access to uploaded files
+    $data: GET/POST data for those parameters that are not always mandatory
+    $urlParams: Data embedded in path parameters by preceding the path part with a $ sign ex: /path/$param1/get
+    $HttpCacheIndicator: A helper class for controlling client side caching (304)
+    $inject: Provides access to other reserved words
+    $socket: emit data to socket.io (only supported with express4 + socket.io integration)
 
 The following reserved words are also available but it is recommended not to use them.
 They will bind your code with http related concepts and break the abstraction.
 
-    * $path: The path of the http request
-    * $request: The req object
-    * $response: The res object
-    * $method: The method of the http request
-    * $body: Data passed through (POST) parameters
-    * $query: Data passed through query parameters (GET)
+    $path: The path of the http request
+    $request: The req object
+    $response: The res object
+    $method: The method of the http request
+    $body: Data passed through (POST) parameters
+    $query: Data passed through query parameters (GET)
 
 ### API
 
