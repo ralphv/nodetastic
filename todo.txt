@@ -1,9 +1,5 @@
 samples:
 
-sample2-multi-handlers
-sample3-reg-new-session-fn
-
-sample with login/logout (states)
 sample with meta-data expires
 sample with own reserved words
 sample with several $HttpCacheIndicator
