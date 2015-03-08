@@ -6,7 +6,7 @@
 * [Getting started](#getting-started)
 * [Samples](#samples)
 * [The command line](#the-command-line)
-* [Reserved Values](#reserved-values)
+* [Reserved values](#reserved-values)
 * [API](#api)
 * [License](#license)
 * [Changelog](#changelog)
