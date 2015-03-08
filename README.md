@@ -68,33 +68,33 @@ Simple example:
 ### Samples
 
 * [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
-
 Basic sample (getting started).
 
-* [Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
 
+* [Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
 Register multiple handlers with different prefixes.
 
-* [Sample3: new session initializer](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample3-reg-new-session-fn.js)
 
+* [Sample3: new session initializer](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample3-reg-new-session-fn.js)
 Register new session function that gets called on new sessions, get a chance to initialize code as you need.
 
-* [Sample4: states, loggedIn, loggedOut and access control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample4-states-login-logout.js)
 
+* [Sample4: states, loggedIn, loggedOut and access control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample4-states-login-logout.js)
 Make use of the service "StateService", define two basic states. Control access to APIs based on current state.
 
-* [Sample5: make use of meta-data for simple cash control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample5-meta-data-expires.js)
 
+* [Sample5: make use of meta-data for simple cash control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample5-meta-data-expires.js)
 Make use of the meta-data feature in nodetastic, use the service "ExpiresService" to provide simple cash control.
 
-* [Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
 
+* [Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
 See how easy it is to add your own set of reserved words and consume them easily in your functions.
 The best of dependency injection at work.
 
-* [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
 
+* [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
 Multiple levels of cash control.
+
 
 ### The command line
 
