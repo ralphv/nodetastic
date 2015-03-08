@@ -36,7 +36,7 @@ describe('testing nodetastic', function() {
       states: ["loggedIn", "loggedOut"],
       valid: {"loggedIn": ["loggedOut"], "loggedOut": ["loggedIn"]},
       start: "loggedOut",
-      defaultMeta: "loggedOut" // no meta data on functions = must be logged in
+      defaultMeta: "loggedOut" // no meta data on functions = access only loggedOut (public)
     });
     mapper.attachGlobalService(mapper.Services.ExpiresService);
     var err = null;
