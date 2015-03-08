@@ -1,7 +1,5 @@
 samples:
 
-sample with own reserved words
-sample with several $HttpCacheIndicator
 sample with server side cache
 sample with socket-io
 sample with $getFunction
