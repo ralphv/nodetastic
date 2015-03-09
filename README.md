@@ -6,7 +6,7 @@
 * [Getting started](#getting-started)
 * [Samples](#samples)
 * [The command line](#the-command-line)
-* [Reserved Values](#reserved-values)
+* [Reserved values](#reserved-values)
 * [API](#api)
 * [License](#license)
 * [Changelog](#changelog)
@@ -90,6 +90,7 @@ Make use of the meta-data feature in nodetastic, use the service "ExpiresService
 * [Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
 See how easy it is to add your own set of reserved words and consume them easily in your functions.
 The best of dependency injection at work.
+
 
 * [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
 Multiple levels of cash control.
