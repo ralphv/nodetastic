@@ -1,4 +1,4 @@
-## nodetastic - A dependency injection http server with a twist, built on top of express
+# nodetastic - A dependency injection http server with a twist, built on top of express
 
 [![NPM](https://nodei.co/npm/nodetastic.png?mini=true)](https://nodei.co/npm/nodetastic/)
 
@@ -11,7 +11,8 @@
 * [License](#license)
 * [Changelog](#changelog)
 
-### Features
+<a name="features" />
+## Features
 
 * A web server with a dependency injection engine.
 * Advanced meta-data per function (Attributes in C#/Annotations in JAVA) via specially formatted embedded comments.
@@ -26,46 +27,50 @@
 * Built on top of express, it will automatically detect express 3 vs express 4.
 * Built in server or integrate with your own setup.
 
-### Getting started
+<a name="getting-started" />
+## Getting started
 
     $ npm install -g nodetastic
 
 Simple example:
 
-    var nodetastic = require("nodetastic");
+```javascript
+var nodetastic = require("nodetastic");
 
-    mapper = nodetastic.CreateNodeTastic();
+mapper = nodetastic.CreateNodeTastic();
 
-    mapper.setTranslateResultFunction(function(result) {
-      return {
-        success: result.success,
-        data: result.data,
-        error: result.error ? result.error : undefined,
-        errorDetails: result.errorDetails ? result.errorDetails : undefined
-      };
-    });
+mapper.setTranslateResultFunction(function(result) {
+  return {
+    success: result.success,
+    data: result.data,
+    error: result.error ? result.error : undefined,
+    errorDetails: result.errorDetails ? result.errorDetails : undefined
+  };
+});
 
-    mapper.registerHandler({
-      HelloNodeTastic: function(cb) {
-        cb(null, "Hello NodeTastic!");
-      },
-      HelloBack: function(strName, cb) {
-        cb(null, "Hello " + strName + "!");
-      },
-      session: {
-        set : function($session, objData, cb) {
-          $session.set("data", objData);
-          cb();
-        },
-        get: function($session, cb) {
-          cb(null, $session.get("data"));
-        }
-      }
-    });
+mapper.registerHandler({
+  HelloNodeTastic: function(cb) {
+    cb(null, "Hello NodeTastic!");
+  },
+  HelloBack: function(strName, cb) {
+    cb(null, "Hello " + strName + "!");
+  },
+  session: {
+    set : function($session, objData, cb) {
+      $session.set("data", objData);
+      cb();
+    },
+    get: function($session, cb) {
+      cb(null, $session.get("data"));
+    }
+  }
+});
 
-    mapper.startServer(3333);
+mapper.startServer(3333);
+```
 
-### Samples
+<a name="samples" />
+## Samples
 
 * [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
 Basic sample (getting started).
@@ -89,7 +94,8 @@ The best of dependency injection at work.
 * [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
 Multiple levels of cash control.
 
-### The command line
+<a name="the-command-line" />
+## The command line
 
 The command line arguments you pass serve the purpose of modifying one or more configuration properties found in [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
 The format of the arguments is in the form of X=Y, check the next samples.
@@ -100,7 +106,8 @@ You could also modify options via setOptions function.
     $ node (your project) 'array_param=["array element 1", "array element 2"]'
     $ node (your project) array_param=element_one,element_two,element_three
 
-### Reserved values
+<a name="reserved-values" />
+## Reserved values
 
 You can add your own reserved values (i.e. factory in AngularJS) via the api function injectReservedValue.
 Reserved words always start with $sign, otherwise it will be a GET/POST parameter.
@@ -126,34 +133,125 @@ They will bind your code with http related concepts and break the abstraction.
     $body: Data passed through (POST) parameters
     $query: Data passed through query parameters (GET)
 
-### API
+<a name="API" />
+## API
 
-(details will follow)
+### setOptions(config)
 
-    setOptions
-    CreateNodeTastic
+Change the options of nodetastic.
+The parameters are those of [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
 
-    registerHandler
-    startServer
-    setTranslateResultFunction
-    injectReservedValue
-    setGlobalPrefix
-    setupSocketIO
+__Arguments__
 
-    setTemporaryHalt
-    removeTemporaryHalt
-    registerNewSessionFunction
-    attachGlobalService
-    attachService
-    getRouteRequestFunction
+* `config` - The configuration object.
 
-    $authorizeFunction
-    $getFunction
+__Examples__
 
-### License
+```js
+var nodetastic = require("nodetastic");
+
+// set own cookieSecret and change the http verbose level to 2
+nodetastic.setOptions({cookieSecret:"new-secret", httpVerbose:2});
+```
+
+### CreateNodeTastic()
+
+Create an instance of nodetastic.
+
+__Examples__
+
+```js
+var nodetastic = require("nodetastic");
+
+var nt = nodetastic.CreateNodeTastic();
+```
+
+### registerHandler([prefix], handler)
+
+Register an object as a handler for a certain url prefix or for the top level (without prefix).
+Nodetastic resolves paths differently. It deduces the path relative to the object's properties.
+Each sub-object is a url path part and each function is an endpoint.
+
+__Arguments__
+
+* `[prefix]` - Optional prefix.
+* `handler` - An object containing nested objects and functions.
+
+__Examples__
+
+[Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
+
+### startServer(port, [callback])
+
+Start express server on the given port.
+Express 3 vs 4 will be automatically detected.
+
+__Arguments__
+
+* `port` - Port number.
+* `[callback]` - An optional callback handler that will be called when the server starts.
+
+__Examples__
+
+* [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
+
+### setTranslateResultFunction()
+__Arguments__
+__Examples__
+
+### injectReservedValue()
+__Arguments__
+__Examples__
+
+### setGlobalPrefix()
+__Arguments__
+__Examples__
+
+### setupSocketIO()
+__Arguments__
+__Examples__
+
+### setTemporaryHalt()
+__Arguments__
+__Examples__
+
+### removeTemporaryHalt()
+__Arguments__
+__Examples__
+
+### registerNewSessionFunction()
+__Arguments__
+__Examples__
+
+### attachGlobalService()
+__Arguments__
+__Examples__
+
+### attachService()
+__Arguments__
+__Examples__
+
+### getRouteRequestFunction()
+__Arguments__
+__Examples__
+
+### $authorizeFunction()
+__Arguments__
+__Examples__
+
+### $getFunction()
+__Arguments__
+__Examples__
+
+
+## License
 
 nodetastic is licensed under the [BSD-3 License](http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE).
 
-### Changelog
+## Changelog
+
+* 0.1.2: APIs documentation added.
+
+* 0.1.1: Samples added.
 
 * 0.1.0: Initial version.
