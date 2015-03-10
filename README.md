@@ -24,7 +24,7 @@
 * Support for integrated socket.io handling.
 * Support for side loading services that have access to meta-data and can control the flow of requests/responses.
 * Built on top of express, it will automatically detect express 3 vs express 4.
-* Built in server or integrate with your own setup.
+* Built-in server or integrate with your own setup.
 
 ## Getting started
 
@@ -38,18 +38,18 @@ var nodetastic = require("nodetastic");
 var mapper = nodetastic.CreateNodeTastic();
 
 mapper.registerHandler({
-  HelloNodeTastic: function(cb) {
+  HelloNodeTastic: function(cb) { // http://localhost/HelloNodeTastic
     cb(null, "Hello NodeTastic!");
   },
-  HelloBack: function(strName, cb) {
+  HelloBack: function(strName, cb) { // http://localhost/HelloBack?strName=Master
     cb(null, "Hello " + strName + "!");
   },
   session: {
-    set : function($session, objData, cb) {
+    set : function($session, objData, cb) { // http://localhost/session/set?objData={"key":"value}
       $session.set("data", objData);
       cb();
     },
-    get: function($session, cb) {
+    get: function($session, cb) { // http://localhost/session/get
       cb(null, $session.get("data"));
     }
   }
@@ -87,7 +87,7 @@ Multiple levels of cash control.
 ### setOptions(config)
 
 Change the options of nodetastic.
-The parameters are those of [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
+The properties are those of [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
 
 __Arguments__
 
@@ -114,7 +114,7 @@ __Examples__
 
 Register an object as a handler for a certain url prefix or for the top level (without prefix).
 Nodetastic resolves paths differently. It deduces the path relative to the object's properties.
-Each sub-object is a url path part and each function is an endpoint.
+Each sub-object is a url path part and each function is an endpoint target.
 
 __Arguments__
 
@@ -141,7 +141,7 @@ __Examples__
 
 ### setTranslateResultFunction(fn)
 
-Sets a translation function. This function will be called to translate between cb-result and between the actual object that will be returned as JSON over http.
+Set a translation function. This function will be called to translate between cb-result and between the actual object that will be returned as JSON over http.
 
 __Arguments__
 
@@ -153,7 +153,7 @@ __Examples__
 
 ### injectReservedValue(reservedValueName, fn)
 
-Creates a custom reserved value that you "require" in your handler functions.
+Creates a custom reserved value that you "request" in your handler functions.
 The `fn` will be called whenever the reserved value is required by a handler function.
 The parameters of fn should always start with two variables, `[context](#context)` and `param`.
 The `fn` can depend on other reserved words as long as they don't have a circular dependency.
@@ -176,7 +176,7 @@ __Arguments__
 
 * `prefix` - The prefix to use
 
-### setupSocketIO(sessionToSocketIORoomFn, socketIoRecieveDataFn)
+### setupSocketIO(sessionToSocketIORoomFn, socketIoReceiveDataFn)
 
 Easily integrate socket.io in your server code. On the client side you should attempt to connect after you establish proper authorization (login)
 and disconnect when you logout.
@@ -186,15 +186,15 @@ __Arguments__
 * `sessionToSocketIORoomFn(session)` - A function that takes a session object (raw session) and should return a room id for socket.io
 Basically this would be something that identifies your session either uniquely (if you want a room per session).
 Or it can be some session information data such as the logged in user id, in this case all users logged in with the same id will share the same chat room.
-* `socketIoRecieveDataFn(data)` - A function handler that will receive the data sent from the client.
+* `socketIoReceiveDataFn(data)` - A function handler that will receive the data sent from the client.
 
 __Examples__
 
-**(will follow)**
+(will follow)
 
 ### setTemporaryHalt(object)
 
-If you need to temporary halt all responses and return one data for all, this is the function you use.
+If you need to temporary halt all responses and return one data for all functions.
 It can be data that indicates a temporary state, like server under maintenance.
 
 __Arguments__
@@ -203,7 +203,7 @@ __Arguments__
 
 ### removeTemporaryHalt()
 
-Simply remove the halt object, if set before with [setTemporaryHalt](#set-temporary-halt).
+Remove the temporary halt.
 
 ### registerNewSessionFunction(newSessionFn)
 
@@ -224,13 +224,12 @@ While nodetastic has it's own server code that you can use with [startServer](#s
 __Examples__
 
 ```js
-// app is your express server from your existing setup
-
 var nodetastic = require("nodetastic");
 
 var mapper = nodetastic.CreateNodeTastic();
 // setup mapper as needed (handlers, reserved words...)
 
+// app is your express server from your existing setup
 // link routes
 app.all('*', mapper.getRouteRequestFunction());
 app.disable('etag');
@@ -252,7 +251,7 @@ __Properties__
 * `fn` - The target function of the handler that will be called to process this request/response.
 * `args` - The compiled arguments that will be sent to the target function, the dependency injection engine will decide what they are.
 * `map.params` - The data generated by the discovery function of the dependency injection engine.
-* `map.meta` - The meta-data object extracted from the specially formulated embedded comments inside the target function.
+* `map.meta` - The meta-data object extracted from the specially formulated embedded comments inside the target function. //<meta>{...}</meta>
 * `$session` - The session wrapper object of the current request/response.
 
 ## Reserved words
