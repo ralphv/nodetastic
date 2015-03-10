@@ -11,7 +11,6 @@
 * [License](#license)
 * [Changelog](#change-log)
 
-<a name="features" />
 ## Features
 
 * A web server with a dependency injection engine.
@@ -27,7 +26,6 @@
 * Built on top of express, it will automatically detect express 3 vs express 4.
 * Built in server or integrate with your own setup.
 
-<a name="getting-started" />
 ## Getting started
 
     $ npm install -g nodetastic
@@ -37,7 +35,7 @@ Simple example:
 ```javascript
 var nodetastic = require("nodetastic");
 
-mapper = nodetastic.CreateNodeTastic();
+var mapper = nodetastic.CreateNodeTastic();
 
 mapper.registerHandler({
   HelloNodeTastic: function(cb) {
@@ -60,7 +58,6 @@ mapper.registerHandler({
 mapper.startServer(80);
 ```
 
-<a name="samples" />
 ## Samples
 
 * [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
@@ -85,10 +82,8 @@ The best of dependency injection at work.
 * [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
 Multiple levels of cash control.
 
-<a name="api" />
 ## API
 
-<a name="set-options" />
 ### setOptions(config)
 
 Change the options of nodetastic.
@@ -107,7 +102,6 @@ var nodetastic = require("nodetastic");
 nodetastic.setOptions({cookieSecret:"new-secret", httpVerbose:2});
 ```
 
-<a name="create-node-tastic" />
 ### CreateNodeTastic()
 
 Create an instance of nodetastic.
@@ -116,7 +110,6 @@ __Examples__
 
 [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
 
-<a name="register-handler" />
 ### registerHandler([prefix], handler)
 
 Register an object as a handler for a certain url prefix or for the top level (without prefix).
@@ -132,7 +125,6 @@ __Examples__
 
 [Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
 
-<a name="start-server" />
 ### startServer(port, [callback])
 
 Start express server on the given port.
@@ -147,7 +139,6 @@ __Examples__
 
 [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
 
-<a name="set-translate-result-function" />
 ### setTranslateResultFunction(fn)
 
 Sets a translation function. This function will be called to translate between cb-result and between the actual object that will be returned as JSON over http.
@@ -160,12 +151,11 @@ __Examples__
 
 [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
 
-<a name="inject-reserved-value" />
 ### injectReservedValue(reservedValueName, fn)
 
 Creates a custom reserved value that you "require" in your handler functions.
 The `fn` will be called whenever the reserved value is required by a handler function.
-The parameters of fn should always start with two variables, `context` and `param`.
+The parameters of fn should always start with two variables, `[context](#context)` and `param`.
 The `fn` can depend on other reserved words as long as they don't have a circular dependency.
 If you specify the last parameter as `cb` then this is an indicator that `fn` is to be called in async mode.
 
@@ -178,7 +168,6 @@ __Examples__
 
 [Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
 
-<a name="set-global-prefix" />
 ### setGlobalPrefix(prefix)
 
 Sometimes it is useful to have a global prefix added to all handlers, this is usually in environments behind a reverse proxy.
@@ -187,52 +176,85 @@ __Arguments__
 
 * `prefix` - The prefix to use
 
-<a name="setup-socket-io" />
-### setupSocketIO()
+### setupSocketIO(sessionToSocketIORoomFn, socketIoRecieveDataFn)
+
+Easily integrate socket.io in your server code. On the client side you should attempt to connect after you establish proper authorization (login)
+and disconnect when you logout.
+
 __Arguments__
+
+* `sessionToSocketIORoomFn(session)` - A function that takes a session object (raw session) and should return a room id for socket.io
+Basically this would be something that identifies your session either uniquely (if you want a room per session).
+Or it can be some session information data such as the logged in user id, in this case all users logged in with the same id will share the same chat room.
+* `socketIoRecieveDataFn(data)` - A function handler that will receive the data sent from the client.
+
 __Examples__
 
-<a name="set-temporary-halt" />
-### setTemporaryHalt()
-__Arguments__
-__Examples__
+**(will follow)**
 
-<a name="remove-temporary-halt" />
+### setTemporaryHalt(object)
+
+If you need to temporary halt all responses and return one data for all, this is the function you use.
+It can be data that indicates a temporary state, like server under maintenance.
+
+__Arguments__
+
+* `object` - The raw object to return for all responses.
+
 ### removeTemporaryHalt()
+
+Simply remove the halt object, if set before with [setTemporaryHalt](#set-temporary-halt).
+
+### registerNewSessionFunction(newSessionFn)
+
+If you need to do any initialization for new sessions, pass a handler to this function.
+
 __Arguments__
+
+* `newSessionFn([context](#context), $inject, cb)` -  The handler would take the [context](#context) object, $inject to allow access to any reserved values and a callback to call when done.
+
 __Examples__
 
-<a name="register-new-session-function" />
-### registerNewSessionFunction()
-__Arguments__
-__Examples__
+[Sample3: new session initializer](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample3-reg-new-session-fn.js)
 
-<a name="attach-global-service" />
-### attachGlobalService()
-__Arguments__
-__Examples__
-
-<a name="attach-service" />
-### attachService()
-__Arguments__
-__Examples__
-
-<a name="get-route-request-function" />
 ### getRouteRequestFunction()
-__Arguments__
+
+While nodetastic has it's own server code that you can use with [startServer](#start-server) sometimes you might want to integrate it with code you already have.
+
 __Examples__
 
-<a name="authorize-function" />
-### $authorizeFunction()
-__Arguments__
-__Examples__
+```js
+// app is your express server from your existing setup
 
-<a name="get-function" />
-### $getFunction()
-__Arguments__
-__Examples__
+var nodetastic = require("nodetastic");
 
-<a name="reserved-words" />
+var mapper = nodetastic.CreateNodeTastic();
+// setup mapper as needed (handlers, reserved words...)
+
+// link routes
+app.all('*', mapper.getRouteRequestFunction());
+app.disable('etag');
+```
+
+### Context object definition
+
+The context is an object that has all the data needed for the current request/response to be processed by nodetastic.
+The current step of processing will effect the properties the context has so far.
+
+__Properties__
+
+* `req` - The underlying request object (http/express). You should not use this directly.
+* `res` - The underlying response object (http/express). You should not use this directly.
+* `skipInvokeFunction(data)` - A function that can be used from services to skip calling the target function and return the data supplied instead.
+* `invoke_cb_result` - The cb-result object when the target function has been called and it's data returned.
+* `resultObject` - The translated invoke_cb_result that should be returned instead. Use [setTranslateResultFunction](#set-translate-result-function) to setup the translator.
+* `handler` - The handler responsible for this request, based on the registered handlers and their prefixes.
+* `fn` - The target function of the handler that will be called to process this request/response.
+* `args` - The compiled arguments that will be sent to the target function, the dependency injection engine will decide what they are.
+* `map.params` - The data generated by the discovery function of the dependency injection engine.
+* `map.meta` - The meta-data object extracted from the specially formulated embedded comments inside the target function.
+* `$session` - The session wrapper object of the current request/response.
+
 ## Reserved words
 
 You can add your own reserved words (values) via the api function [injectReservedValue](#inject-reserved-value).
@@ -259,7 +281,6 @@ They will bind your code with http related concepts and break the abstraction.
     $body: Data passed through (POST) parameters
     $query: Data passed through query parameters (GET)
 
-<a name="the-command-line" />
 ## The command line
 
 The command line arguments you pass serve the purpose of modifying one or more configuration properties found in [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
@@ -271,12 +292,10 @@ You could also modify options via setOptions function.
     $ node (your project) 'array_param=["array element 1", "array element 2"]'
     $ node (your project) array_param=element_one,element_two,element_three
 
-<a name="license" />
 ## License
 
 nodetastic is licensed under the [BSD-3 License](http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE).
 
-<a name="change-log" />
 ## Changelog
 
 * 0.1.2: APIs documentation added.

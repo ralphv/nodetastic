@@ -6,6 +6,21 @@ sample with $getFunction
 sample with $authorizeFunction
 
 
+### attachGlobalService()
+__Arguments__
+__Examples__
+
+### attachService()
+__Arguments__
+__Examples__
+
+### $authorizeFunction()
+__Arguments__
+__Examples__
+
+### $getFunction()
+__Arguments__
+__Examples__
 
 
 
