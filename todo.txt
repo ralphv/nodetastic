@@ -1,8 +1,6 @@
 samples:
 
-sample with server side cache
 sample with socket-io
-sample with $getFunction
 sample with $authorizeFunction
 
 
