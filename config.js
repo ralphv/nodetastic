@@ -28,6 +28,9 @@ module.exports = {
   "cookieSecret": "1234567890QWERTY",
 
   // session timeout
-  "cookieMaxAgeMinutes": 30
+  "cookieMaxAgeMinutes": 30,
+
+  // crash log file
+  "crashLog": "/var/log/nodetastic-crash.log"
 };
 
