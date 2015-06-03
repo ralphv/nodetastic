@@ -9,7 +9,7 @@
 var should = require('should');
 var assert = require('assert');
 var path = require('path');
-var port = 4444;
+var port = 4445;
 var cb_result = require("cb-result");
 var mapper;
 
@@ -109,6 +109,9 @@ describe('testing nodetastic', function() {
     mapper.registerHandler({
       hello: function(cb) {
         cb(null, "hello world");
+      },
+      hello_post: function(cb) {
+        cb(null, "hello world POST");
       },
       path: {
         hello: function(cb) {
@@ -277,6 +280,13 @@ describe('testing nodetastic', function() {
   it('testing hello', function(done) {
     httpHelper.createGet("/hello").getJson(function(err, result) {
       assert(result.data == "hello world");
+      done();
+    });
+  });
+
+  it('testing hello POST', function(done) {
+    httpHelper.createPost("/hello").postJson({}, function(err, result) {
+      assert(result.data == "hello world POST");
       done();
     });
   });
