@@ -297,6 +297,8 @@ nodetastic is licensed under the [BSD-3 License](http://bitbucket.com/ralphv/nod
 
 ## Changelog
 
+* 0.1.3: Added ability to call functions post-fixed with method name.
+
 * 0.1.2: APIs documentation added.
 
 * 0.1.1: Samples added.

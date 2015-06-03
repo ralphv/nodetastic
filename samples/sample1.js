@@ -23,6 +23,9 @@ mapper.registerHandler({
   HelloNodeTastic: function(cb) {     // http://localhost:3333/HelloNodeTastic
     cb(null, "Hello NodeTastic!");
   },
+  HelloNodeTastic_post: function(cb) {     // POST http://localhost:3333/HelloNodeTastic
+    cb(null, "Hello NodeTastic! POST only");
+  },
   HelloBack: function(strName, cb) {    // http://localhost:3333/HelloBack?strName=Myself
     cb(null, "Hello " + strName + "!");
   },
