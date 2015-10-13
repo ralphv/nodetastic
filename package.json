@@ -1,6 +1,6 @@
 {
   "name": "nodetastic",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A dependency injection http server with a twist, built on top of express",
   "keywords": [
     "express", "http", "server", "dependency", "injection"

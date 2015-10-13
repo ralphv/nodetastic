@@ -25,6 +25,7 @@
 * Support for side loading services that have access to meta-data and can control the flow of requests/responses.
 * Built on top of express, it will automatically detect express 3 vs express 4.
 * Built-in server or integrate with your own setup.
+* Don't like the different routing approach nodetastic offers? use mapper.wrap directly with express functions.
 
 ## Getting started
 
@@ -81,6 +82,15 @@ The best of dependency injection at work.
 
 * [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
 Multiple levels of cash control.
+
+* [Sample8: server side cash](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample8-server-cache.js)
+Server side easy cash control.
+
+* [Sample9: Supply functions dynamically](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample9-get-function.js)
+Supply functions dynamically at runtime.
+
+* [Sample10: Use DI directly with express](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample10-with-express.js)
+Don't like the built in routing of nodetastic, use it's DI engine directly with express.
 
 ## API
 
@@ -296,6 +306,8 @@ You could also modify options via setOptions function.
 nodetastic is licensed under the [BSD-3 License](http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE).
 
 ## Changelog
+
+* 0.1.4: Added ability to use the DI injection directly in express commands.
 
 * 0.1.3: Added ability to call functions post-fixed with method name.
 
