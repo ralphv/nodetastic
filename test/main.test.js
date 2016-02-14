@@ -1,6 +1,6 @@
 /**
  * Created by Ralph Varjabedian.
- * nodetastic is licensed under the [BSD-3 License] http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE.
+ * nodetastic is licensed under the [BSD-3 License] https://raw.githubusercontent.com/ralphv/nodetastic/master/LICENSE.
  * do not remove this notice.
  */
 
@@ -106,7 +106,7 @@ describe('testing nodetastic', function() {
       }
       return response;
     });
-    mapper.registerHandler({
+    mapper.registerController({
       hello: function(cb) {
         cb(null, "hello world");
       },
@@ -348,7 +348,7 @@ describe('testing nodetastic', function() {
   });
 
   it('testing noauth module2', function(done) {
-    httpHelper.createGet("/rest/module1/module2/noauth ").getJson(function(err, result) {
+    httpHelper.createGet("/rest/module1/module2/noauth").getJson(function(err, result) {
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'authorization failed');
       done();

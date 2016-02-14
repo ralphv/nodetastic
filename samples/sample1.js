@@ -1,6 +1,6 @@
 /**
  * Created by Ralph Varjabedian.
- * nodetastic is licensed under the [BSD-3 License] http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE.
+ * nodetastic is licensed under the [BSD-3 License] https://raw.githubusercontent.com/ralphv/nodetastic/master/LICENSE.
  * do not remove this notice.
  */
 

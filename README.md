@@ -1,4 +1,4 @@
-# nodetastic - A dependency injection http server with a twist, built on top of express
+# nodetastic - A dependency injection Node.JS API Server with a twist
 
 [![NPM](https://nodei.co/npm/nodetastic.png?mini=true)](https://nodei.co/npm/nodetastic/)
 
@@ -15,7 +15,7 @@
 
 * A web server with a dependency injection engine.
 * Advanced meta-data per function (Attributes in C#/Annotations in JAVA) via specially formatted embedded comments.
-* Parameters of functions are either reserved words (services) or GET/POST parameters.
+* Parameters of functions are either reserved words (factories) or GET/POST parameters.
 * Basic GET/POST parameters are automatically checked and can be type checked as well via hungarian notation.
 * Path is deduced from the nesting structure of handlers.
 * If you are familiar with AngularJS, you will feel right at home.
@@ -38,7 +38,7 @@ var nodetastic = require("nodetastic");
 
 var mapper = nodetastic.CreateNodeTastic();
 
-mapper.registerHandler({
+mapper.registerController({
   HelloNodeTastic: function(cb) { // http://localhost/HelloNodeTastic
     cb(null, "Hello NodeTastic!");
   },
@@ -61,35 +61,35 @@ mapper.startServer(80);
 
 ## Samples
 
-* [Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
+* [Sample1](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample1.js)
 Basic sample (getting started).
 
-* [Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
+* [Sample2: multiple handlers](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample2-multi-handlers.js)
 Register multiple handlers with different prefixes.
 
-* [Sample3: new session initializer](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample3-reg-new-session-fn.js)
+* [Sample3: new session initializer](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample3-reg-new-session-fn.js)
 Register new session function that gets called on new sessions, get a chance to initialize code as you need.
 
-* [Sample4: states, loggedIn, loggedOut and access control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample4-states-login-logout.js)
+* [Sample4: states, loggedIn, loggedOut and access control](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample4-states-login-logout.js)
 Make use of the service "StateService", define two basic states. Control access to APIs based on current state.
 
-* [Sample5: make use of meta-data for simple cash control](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample5-meta-data-expires.js)
+* [Sample5: make use of meta-data for simple cash control](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample5-meta-data-expires.js)
 Make use of the meta-data feature in nodetastic, use the service "ExpiresService" to provide simple cash control.
 
-* [Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
+* [Sample6: inject your own reserved words](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample6-custom-reserved-words.js)
 See how easy it is to add your own set of reserved words and consume them easily in your functions.
 The best of dependency injection at work.
 
-* [Sample7: control client side cash (304)](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample7-client-cache.js)
+* [Sample7: control client side cash (304)](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample7-client-cache.js)
 Multiple levels of cash control.
 
-* [Sample8: server side cash](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample8-server-cache.js)
+* [Sample8: server side cash](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample8-server-cache.js)
 Server side easy cash control.
 
-* [Sample9: Supply functions dynamically](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample9-get-function.js)
+* [Sample9: Supply functions dynamically](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample9-get-function.js)
 Supply functions dynamically at runtime.
 
-* [Sample10: Use DI directly with express](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample10-with-express.js)
+* [Sample10: Use DI directly with express](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample10-with-express.js)
 Don't like the built in routing of nodetastic, use it's DI engine directly with express.
 
 ## API
@@ -97,7 +97,7 @@ Don't like the built in routing of nodetastic, use it's DI engine directly with 
 ### setOptions(config)
 
 Change the options of nodetastic.
-The properties are those of [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
+The properties are those of [./config.js](https://raw.githubusercontent.com/ralphv/nodetastic/master/config.js).
 
 __Arguments__
 
@@ -118,9 +118,9 @@ Create an instance of nodetastic.
 
 __Examples__
 
-[Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
+[Sample1](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample1.js)
 
-### registerHandler([prefix], handler)
+### registerController([prefix], handler)
 
 Register an object as a handler for a certain url prefix or for the top level (without prefix).
 Nodetastic resolves paths differently. It deduces the path relative to the object's properties.
@@ -133,7 +133,7 @@ __Arguments__
 
 __Examples__
 
-[Sample2: multiple handlers](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample2-multi-handlers.js)
+[Sample2: multiple handlers](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample2-multi-handlers.js)
 
 ### startServer(port, [callback])
 
@@ -147,7 +147,7 @@ __Arguments__
 
 __Examples__
 
-[Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
+[Sample1](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample1.js)
 
 ### setTranslateResultFunction(fn)
 
@@ -159,7 +159,7 @@ __Arguments__
 
 __Examples__
 
-[Sample1](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample1.js)
+[Sample1](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample1.js)
 
 ### injectReservedValue(reservedValueName, fn)
 
@@ -176,7 +176,7 @@ __Arguments__
 
 __Examples__
 
-[Sample6: inject your own reserved words](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample6-custom-reserved-words.js)
+[Sample6: inject your own reserved words](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample6-custom-reserved-words.js)
 
 ### setGlobalPrefix(prefix)
 
@@ -225,7 +225,7 @@ __Arguments__
 
 __Examples__
 
-[Sample3: new session initializer](http://bitbucket.org/ralphv/nodetastic/src/master/samples/sample3-reg-new-session-fn.js)
+[Sample3: new session initializer](https://raw.githubusercontent.com/ralphv/nodetastic/master/samples/sample3-reg-new-session-fn.js)
 
 ### getRouteRequestFunction()
 
@@ -292,7 +292,7 @@ They will bind your code with http related concepts and break the abstraction.
 
 ## The command line
 
-The command line arguments you pass serve the purpose of modifying one or more configuration properties found in [./config.js](http://bitbucket.org/ralphv/nodetastic/src/master/config.js).
+The command line arguments you pass serve the purpose of modifying one or more configuration properties found in [./config.js](https://raw.githubusercontent.com/ralphv/nodetastic/master/config.js).
 The format of the arguments is in the form of X=Y, check the next samples.
 You could also modify options via setOptions function.
 
@@ -303,7 +303,7 @@ You could also modify options via setOptions function.
 
 ## License
 
-nodetastic is licensed under the [BSD-3 License](http://bitbucket.com/ralphv/nodetastic/raw/master/LICENSE).
+nodetastic is licensed under the [BSD-3 License](https://raw.githubusercontent.com/ralphv/nodetastic/master/LICENSE).
 
 ## Changelog
 

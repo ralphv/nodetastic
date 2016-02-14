@@ -1,18 +1,18 @@
 {
   "name": "nodetastic",
-  "version": "0.1.4",
-  "description": "A dependency injection http server with a twist, built on top of express",
+  "version": "1.0.0",
+  "description": "A dependency injection Node.JS API Server with a twist",
   "keywords": [
     "express", "http", "server", "dependency", "injection"
   ],
-  "homepage": "https://bitbucket.org/ralphv/nodetastic",
+  "homepage": "https://github.com/ralphv/nodetastic",
   "author": "ralph varjabedian",
   "directories": {
     "lib": "./lib"
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/ralphv/nodetastic.git"
+    "url": "https://github.com/ralphv/nodetastic.git"
   },
   "license": "BSD-3-Clause",
   "preferGlobal": true,

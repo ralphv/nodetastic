@@ -32,9 +32,13 @@ future:
 add partial match switch
 add that verbose that prints out command structures via command line
 
-add to github
-integrate chatrooms
-add controller as well as handler
-change name to include api server
-change to version 1.0
+  add to github
+  change repo data to github
+  integrate chatrooms
+  add controller as well as handler
+  registerHanler into controller in readme
+  change name to include api server
+  change to version 1.0
+  publish
+
 support for promises
