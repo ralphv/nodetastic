@@ -1,5 +1,7 @@
 # nodetastic - A dependency injection Node.JS API Server with a twist
 
+[![Join the chat at https://gitter.im/ralphv/nodetastic](https://badges.gitter.im/ralphv/nodetastic.svg)](https://gitter.im/ralphv/nodetastic?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![NPM](https://nodei.co/npm/nodetastic.png?mini=true)](https://nodei.co/npm/nodetastic/)
 
 * [Features](#features)
