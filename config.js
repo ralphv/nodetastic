@@ -34,6 +34,9 @@ module.exports = {
   "crashLog": "/var/log/nodetastic-crash.log",
 
   // cb names
-  "cbNames": ["cb", "done", "next"]
+  "cbNames": ["cb", "done", "next"],
+
+  // function name resolve case insensitive (the searched functions should be all lower letters)
+  "functionNamesCaseInsensitive": false
 };
 

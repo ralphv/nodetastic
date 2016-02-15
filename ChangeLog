@@ -4,6 +4,6 @@
 * [03-06-2015@0.1.3] calling functions post-fixed with method name
 * [13-10-2015@0.1.4] add wrap for direct integration with express
 * [14-02-2016@1.0.0] change to github, add chatter, add a function alias
-* [15-02-2016@1.0.1] add support for promises, add support for advanced format
+* [15-02-2016@1.0.1] added support for promises, advanced format and case insensitive function resolving
 
 
