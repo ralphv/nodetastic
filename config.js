@@ -34,6 +34,6 @@ module.exports = {
   "crashLog": "/var/log/nodetastic-crash.log",
 
   // cb names
-  "cbNames": ["cb", "done"]
+  "cbNames": ["cb", "done", "next"]
 };
 
