@@ -31,6 +31,9 @@ module.exports = {
   "cookieMaxAgeMinutes": 30,
 
   // crash log file
-  "crashLog": "/var/log/nodetastic-crash.log"
+  "crashLog": "/var/log/nodetastic-crash.log",
+
+  // cb names
+  "cbNames": ["cb", "done"]
 };
 

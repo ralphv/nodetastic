@@ -6,6 +6,7 @@
 
 'use strict';
 
+var q = require('q');
 var should = require('should');
 var assert = require('assert');
 var path = require('path');
@@ -112,6 +113,16 @@ describe('testing nodetastic', function() {
       },
       hello_post: function(cb) {
         cb(null, "hello world POST");
+      },
+      hellopromise: function() {
+        return q("hello promise");
+      },
+      hellopromise1: function() {
+        var pr = q.defer();
+        setTimeout(function(){
+          pr.resolve("hello promise1");
+        }, 100);
+        return pr.promise;
       },
       path: {
         hello: function(cb) {
@@ -280,6 +291,21 @@ describe('testing nodetastic', function() {
   it('testing hello', function(done) {
     httpHelper.createGet("/hello").getJson(function(err, result) {
       assert(result.data == "hello world");
+      done();
+    });
+  });
+
+  it('testing hellopromise', function(done) {
+    httpHelper.createGet("/hellopromise").getJson(function(err, result) {
+      assert(result.data == "hello promise");
+      done();
+    });
+  });
+
+  it('testing hellopromise1', function(done) {
+    httpHelper.createGet("/hellopromise1").getJson(function(err, result) {
+      console.log(JSON.stringify(result, null, 2));
+      assert(result.data == "hello promise1");
       done();
     });
   });

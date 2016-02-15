@@ -309,6 +309,10 @@ nodetastic is licensed under the [BSD-3 License](https://raw.githubusercontent.c
 
 ## Changelog
 
+* 1.0.1: Add support for promises.
+
+* 1.0.0: Change to github
+
 * 0.1.4: Added ability to use the DI injection directly in express commands.
 
 * 0.1.3: Added ability to call functions post-fixed with method name.
