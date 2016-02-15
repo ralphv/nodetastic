@@ -119,10 +119,15 @@ describe('testing nodetastic', function() {
       },
       hellopromise1: function() {
         var pr = q.defer();
-        setTimeout(function(){
+        setTimeout(function() {
           pr.resolve("hello promise1");
         }, 100);
         return pr.promise;
+      },
+      helloadvanced: {
+        fn: function(cb) {
+          cb(null, "hello advanced");
+        }
       },
       path: {
         hello: function(cb) {
@@ -174,6 +179,12 @@ describe('testing nodetastic', function() {
       passivecash: function(cb) {
         //<meta>{"ExpiresMinutes":60}</meta>
         cb(cb_result.success({data: "data"}));
+      },
+      passivecashadvanced: {
+        fn: function(cb) {
+          cb(cb_result.success({data: "data advanced"}));
+        },
+        meta: {"ExpiresMinutes": 61}
       },
       passivecash1: function(cb) {
         //<meta>{"ExpiresSeconds":60}</meta>
@@ -304,8 +315,14 @@ describe('testing nodetastic', function() {
 
   it('testing hellopromise1', function(done) {
     httpHelper.createGet("/hellopromise1").getJson(function(err, result) {
-      console.log(JSON.stringify(result, null, 2));
       assert(result.data == "hello promise1");
+      done();
+    });
+  });
+
+  it('testing hello advanced', function(done) {
+    httpHelper.createGet("/helloadvanced").getJson(function(err, result) {
+      assert(result.data == "hello advanced");
       done();
     });
   });
@@ -390,6 +407,7 @@ describe('testing nodetastic', function() {
 
   it('testing invalid function', function(done) {
     httpHelper.createGet("/non-exist").getJson(function(err, result) {
+      console.log(JSON.stringify(result, null, 2));
       assert(!result.success);
       assert(result.errors[0].errorDetails == 'could not find function');
       done();
@@ -551,6 +569,14 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/passivecash").getJson(function(err, result, res) {
       assert(result.success);
       assert(res.headers["cache-control"] == "public, max-age=3600");
+      done();
+    });
+  });
+
+  it('testing passivecash advanced', function(done) {
+    httpHelper.createGet("/passivecashadvanced").getJson(function(err, result, res) {
+      assert(result.success);
+      assert(res.headers["cache-control"] == "public, max-age=3660");
       done();
     });
   });
