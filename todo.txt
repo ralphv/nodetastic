@@ -20,7 +20,7 @@ __Examples__
 __Arguments__
 __Examples__
 
-
+use the setPrototype to wrap the function/object with functions like getFunction, getMap...
 
 to release:
 
@@ -42,5 +42,4 @@ add that verbose that prints out command structures via command line
   publish
 
   support for promises
-add an advanced form of functions (object with meta data as a tag there)
-use the setPrototype to wrap the function/object with functions like getFunction, getMap...
+  add an advanced form of functions (object with meta data as a tag there)
