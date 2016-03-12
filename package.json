@@ -18,7 +18,6 @@
   "preferGlobal": true,
   "dependencies": {
     "async": "*",
-    "q": "*",
     "cb-result": "*",
     "express": "*",
     "express-session": "*",
