@@ -309,6 +309,8 @@ nodetastic is licensed under the [BSD-3 License](https://raw.githubusercontent.c
 
 ## Changelog
 
+* 1.0.2: Bug fix involving a rare case where the cb was called more than once.
+
 * 1.0.1: Added support for promises, advanced format and case insensitive function resolving.
 
 * 1.0.0: Change to github
