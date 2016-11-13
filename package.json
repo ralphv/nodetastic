@@ -36,6 +36,9 @@
     "grunt-contrib-clean": "*",
     "grunt-shell": "*"
   },
+  "cmd-util": {
+    "name": "nodetastic"
+  },
   "scripts": {
     "test": "grunt test"
   },
