@@ -37,7 +37,8 @@
     "grunt-shell": "*"
   },
   "cmd-util": {
-    "name": "nodetastic"
+    "name": "nodetastic",
+    "project": "nodetastic"
   },
   "scripts": {
     "test": "grunt test"
