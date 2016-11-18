@@ -20,7 +20,7 @@ process.on('uncaughtException', function(err) {
   var log = function(filename) {
     var details = "";
     try { details = JSON.stringify(err); } catch(e) {}
-    fs.appendFileSync(filename, "uncaught exception: " + (new Date()).toString() + " " + err + " " + details + "\r\n");
+    fs.appendFileSync(filename, "uncaught exception: " + (new Date()).toString() + " " + err + " " + details + "\r\n" + "stack: " + err.stack);
   };
   try {
     log(config.crashLog);
