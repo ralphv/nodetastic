@@ -5,6 +5,7 @@
  */
 
 var fs = require("fs");
+var child_process = require('child_process');
 
 require("./SetupErrorCodes.js");
 var config = require("./config.js");
@@ -20,7 +21,11 @@ process.on('uncaughtException', function(err) {
   var log = function(filename) {
     var details = "";
     try { details = JSON.stringify(err); } catch(e) {}
-    fs.appendFileSync(filename, "uncaught exception: " + (new Date()).toString() + " " + err + " " + details + "\r\n" + "stack: " + err.stack);
+    const logContents = "uncaught exception: " + (new Date()).toString() + " " + err + " " + details + "\r\n" + "stack: " + err.stack;
+    fs.appendFileSync(filename, logContents);
+    child_process.execSync("cmd-util chat", {
+      input: "nodetastic " + logContents
+    });
   };
   try {
     log(config.crashLog);
