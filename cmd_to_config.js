@@ -6,7 +6,7 @@
 
 /**
  * Created by Ralph Varjabedian on 3/31/14.
- * v 1.07
+ * v 1.10
  *
  * A generic file that reads command line arguments and matches them against values in ./config.js
  * If something is found there, it will be modified according to it's proper type
@@ -17,23 +17,25 @@
  * for strings with spaces, the command line will be: "ref=this is the new string value"
  *
  */
+'use strict';
 
-var assert = require("assert");
-var config = require("./config.js");
-var _ = require("lodash");
-var logger = logger = {info: console.log};
+const assert = require("assert");
+const path = require("path");
+const config = require("./config.js");
+const _ = require("lodash");
+var logger = {info: console.log};
 try { logger = require("do.logger"); } catch(err) {}
 
-var projectName = __dirname.substring(__dirname.lastIndexOf("/") + 1);
+const projectName = __dirname.substring(__dirname.lastIndexOf("/") + 1);
 logger.info("cmd_to_config: scanning command line arguments for ./config.js matches for project: " + projectName);
 process.argv.forEach(function(val) {
-  var parts = val.split('=');
+  const parts = val.split('=');
   if(parts && parts.length === 2) {
-    var configElementRef = parts[0];
-    var configElementValue = parts[1];
-    var composite = false;
-    var compositePartsObj;
-    var compositePartsRef;
+    let configElementRef = parts[0];
+    const configElementValue = parts[1];
+    let composite = false;
+    let compositePartsObj;
+    let compositePartsRef;
     if(configElementRef.indexOf(".") !== -1) { // composite, contains .
       var objectParts = configElementRef.split(".");
       var ptr = config;
@@ -84,7 +86,7 @@ process.argv.forEach(function(val) {
   }
 });
 logger.info("cmd_to_config: done scanning for: " + projectName);
-
+//endregion
 module.exports = function(opt) {
   logger.info("cmd_to_config: setting options", JSON.stringify(opt));
   _.merge(config, opt);
