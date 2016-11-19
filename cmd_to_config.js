@@ -46,7 +46,7 @@ while(true) {
   try {
     const requireFile = path.join(cwd, "cmd_to_config_global.js");
     const configOverride = require(requireFile);
-    console.log("found override here: " + requireFile, " processing...");
+    logger.info("found override here: " + requireFile, " processing...");
     processGlobalConfig(config, configOverride, projectName);
     break;
   } catch(e) {
