@@ -27,6 +27,34 @@ var logger = {info: console.log};
 try { logger = require("do.logger"); } catch(err) {}
 
 const projectName = __dirname.substring(__dirname.lastIndexOf("/") + 1);
+
+//region global override
+logger.info("cmd_to_config: scanning folders for cmd_to_config_global.js override ");
+var cwd = process.cwd();
+function processGlobalConfig(config, configOverride, projectName) {
+  if(configOverride[projectName]) {
+    _.merge(config, configOverride[projectName]);
+  } else if(configOverride.all) {
+    _.merge(config, configOverride.all);
+  }
+}
+while(true) {
+  cwd = path.join(cwd, "../");
+  if(!cwd || cwd == "/") {
+    break;
+  }
+  try {
+    const requireFile = path.join(cwd, "cmd_to_config_global.js");
+    const configOverride = require(requireFile);
+    console.log("found override here: " + requireFile, " processing...");
+    processGlobalConfig(config, configOverride, projectName);
+    break;
+  } catch(e) {
+
+  }
+}
+//endregion
+//region command line arguments
 logger.info("cmd_to_config: scanning command line arguments for ./config.js matches for project: " + projectName);
 process.argv.forEach(function(val) {
   const parts = val.split('=');
