@@ -37,6 +37,8 @@ module.exports = {
   "cbNames": ["cb", "done", "next"],
 
   // function name resolve case insensitive (the controller's objects and functions should all be lower case)
-  "functionNamesCaseInsensitive": false
+  "functionNamesCaseInsensitive": false,
+
+  "disableCluster": false
 };
 

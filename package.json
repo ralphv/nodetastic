@@ -25,7 +25,7 @@
     "compression": "*",
     "jsonschema": "*",
     "body-parser": "*",
-    "lodash": "*",
+    "lodash": "4.17.2",
     "lru-cache" : "*",
     "colors" : "*"
   },
@@ -35,6 +35,10 @@
     "grunt-mocha-test": "*",
     "grunt-contrib-clean": "*",
     "grunt-shell": "*"
+  },
+  "cmd-util": {
+    "name": "nodetastic",
+    "project": "nodetastic"
   },
   "scripts": {
     "test": "grunt test"
