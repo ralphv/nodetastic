@@ -1,6 +1,6 @@
 {
   "name": "nodetastic",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A dependency injection Node.JS API Server with a twist",
   "keywords": [
     "express", "http", "server", "dependency", "injection"
