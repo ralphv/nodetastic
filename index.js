@@ -17,7 +17,8 @@ module.exports.setOptions = setOptions;
 
 // setup crash log
 process.on('uncaughtException', function(err) {
-  console.log('Un-Caught exception:', err);
+  console.error('Un-Caught exception:', err);
+  console.error('Un-Caught exception stack:', err.stack);
   var log = function(filename) {
     var details = "";
     try { details = JSON.stringify(err); } catch(e) {}
