@@ -1,6 +1,6 @@
 {
   "name": "nodetastic",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A dependency injection Node.JS API Server with a twist",
   "keywords": [
     "express", "http", "server", "dependency", "injection"
@@ -35,10 +35,6 @@
     "grunt-mocha-test": "*",
     "grunt-contrib-clean": "*",
     "grunt-shell": "*"
-  },
-  "cmd-util": {
-    "name": "nodetastic",
-    "project": "nodetastic"
   },
   "scripts": {
     "test": "grunt test"

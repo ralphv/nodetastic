@@ -5,7 +5,6 @@
  */
 
 var fs = require("fs");
-var child_process = require('child_process');
 
 require("./SetupErrorCodes.js");
 var config = require("./config.js");
@@ -13,7 +12,6 @@ var setOptions = require("./cmd_to_config");
 module.exports = require("./lib/");
 module.exports.setOptions = setOptions;
 //set options via command lines or via setOptions
-
 
 // setup crash log
 process.on('uncaughtException', function(err) {
@@ -24,9 +22,6 @@ process.on('uncaughtException', function(err) {
     try { details = JSON.stringify(err); } catch(e) {}
     const logContents = "uncaught exception: " + (new Date()).toString() + " " + err + " " + details + "\r\n" + "stack: " + err.stack;
     fs.appendFileSync(filename, logContents);
-    child_process.execSync("cmd-util chat", {
-      input: "nodetastic " + logContents
-    });
   };
   try {
     log(config.crashLog);
