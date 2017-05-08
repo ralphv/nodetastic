@@ -6,7 +6,7 @@
 
 /**
  * Created by Ralph Varjabedian on 3/31/14.
- * v 1.15
+ * v 1.16
  *
  * A generic file that reads command line arguments and matches them against values in ./config.js
  * If something is found there, it will be modified according to it's proper type
@@ -25,6 +25,7 @@ const config = require("./config.js");
 const _ = require("lodash");
 var logger = {info: console.log};
 try { logger = require("do.logger"); } catch(err) {}
+const isDevMachine = !!process.env['DEV_MACHINE'];
 
 const projectName = __dirname.substring(__dirname.lastIndexOf("/") + 1);
 
@@ -38,7 +39,8 @@ function processGlobalConfig(config, configOverride, projectName) {
     _.merge(config, configOverride.all);
   }
 }
-while(true) {
+
+while(!isDevMachine) {
   cwd = path.join(cwd, "../");
   if(!cwd || cwd == "/") {
     break;
