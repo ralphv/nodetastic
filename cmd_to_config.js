@@ -6,7 +6,7 @@
 
 /**
  * Created by Ralph Varjabedian on 3/31/14.
- * v 1.16
+ * v 1.17
  *
  * A generic file that reads command line arguments and matches them against values in ./config.js
  * If something is found there, it will be modified according to it's proper type
@@ -27,10 +27,16 @@ var logger = {info: console.log};
 try { logger = require("do.logger"); } catch(err) {}
 const isDevMachine = !!process.env['DEV_MACHINE'];
 
+if (isDevMachine) {
+  console.log("cmd_to_config: This is dev machine, ignoring global config");
+}
+else {
+  logger.info("cmd_to_config: scanning folders for cmd_to_config_global.js override ");
+}
+
 const projectName = __dirname.substring(__dirname.lastIndexOf("/") + 1);
 
 //region global override
-logger.info("cmd_to_config: scanning folders for cmd_to_config_global.js override ");
 var cwd = process.cwd();
 function processGlobalConfig(config, configOverride, projectName) {
   if(configOverride[projectName]) {
@@ -46,13 +52,17 @@ while(!isDevMachine) {
     break;
   }
   try {
-    const requireFile = path.join(cwd, "cmd_to_config_global.js");
-    const configOverride = require(requireFile);
+    var requireFile = path.join(cwd, "cmd_to_config_global.js");
+    var configOverride = require(requireFile);
     logger.info("cmd_to_config: found override here: " + requireFile, "processing...");
-    processGlobalConfig(config, configOverride, projectName);
+    try {
+      processGlobalConfig(config, configOverride, projectName);
+    }
+    catch (e) {
+      console.log("ERROR", e && e.message ? e.message : message);
+    }
     break;
   } catch(e) {
-
   }
 }
 //endregion
