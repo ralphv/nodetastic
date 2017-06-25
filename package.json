@@ -3,7 +3,11 @@
   "version": "1.0.4",
   "description": "A dependency injection Node.JS API Server with a twist",
   "keywords": [
-    "express", "http", "server", "dependency", "injection"
+    "express",
+    "http",
+    "server",
+    "dependency",
+    "injection"
   ],
   "homepage": "https://github.com/ralphv/nodetastic",
   "author": "ralph varjabedian",
@@ -18,16 +22,17 @@
   "preferGlobal": true,
   "dependencies": {
     "async": "*",
-    "q": "*",
+    "body-parser": "*",
     "cb-result": "*",
+    "colors": "*",
+    "compression": "*",
     "express": "*",
     "express-session": "*",
-    "compression": "*",
     "jsonschema": "*",
-    "body-parser": "*",
     "lodash": "4.17.2",
-    "lru-cache" : "*",
-    "colors" : "*"
+    "lru-cache": "*",
+    "q": "*",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "should": "*",
