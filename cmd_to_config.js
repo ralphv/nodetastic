@@ -40,7 +40,7 @@ function processGlobalConfig(config, configOverride, projectName) {
 }
 while(true) {
   cwd = path.join(cwd, "../");
-  if(!cwd || cwd == "/") {
+  if(!cwd || cwd === "/") {
     break;
   }
   try {

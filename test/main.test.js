@@ -208,7 +208,7 @@ describe('testing nodetastic', function() {
       },
       islogin: function($session, $state, cb) {
         //<meta>{"StateService":"any"}</meta>
-        assert($session.get("loggedIn") ? $state.get() == "loggedIn" : $state.get() == "loggedOut");
+        assert($session.get("loggedIn") ? $state.get() === "loggedIn" : $state.get() === "loggedOut");
         cb(cb_result.success($session.get("loggedIn")));
       },
       logout: function($session, $state, cb) {
@@ -232,11 +232,11 @@ describe('testing nodetastic', function() {
       },
       manyreservedwords: function($request, $response, $session, $method, $path, $body, $query, $cache, $urlParams, $data, $inject, cb) {
         $inject.get("$twocb", function(res) {
-          assert(res.data == 2);
+          assert(res.data === 2);
           $inject.get("$two", function(res) {
-            assert(res.data == 2);
+            assert(res.data === 2);
             $inject.get("$null", function(res) {
-              assert(res.data == null);
+              assert(res.data === null);
               cb();
             })
           })
@@ -264,13 +264,13 @@ describe('testing nodetastic', function() {
     assert(err);
     mapper.registerHandler("module1/module2/", {
       $getFunction: function(data, cb) {
-        if(data.functionName == "dynamic") {
+        if(data.functionName === "dynamic") {
           return cb(cb_result.success({fn: function(cb) {cb(null, "dynamic");}, functionName: "dynamic", urlParts: []}));
         }
         cb();
       },
       $authorizeFunction: function(context, cb) {
-        if(context.functionName == "noauth") {
+        if(context.functionName === "noauth") {
           return cb(cb_result.success(false));
         }
         cb(cb_result.success(true));
@@ -301,35 +301,35 @@ describe('testing nodetastic', function() {
 
   it('testing hello', function(done) {
     httpHelper.createGet("/hello").getJson(function(err, result) {
-      assert(result.data == "hello world");
+      assert(result.data === "hello world");
       done();
     });
   });
 
   it('testing hellopromise', function(done) {
     httpHelper.createGet("/hellopromise").getJson(function(err, result) {
-      assert(result.data == "hello promise");
+      assert(result.data === "hello promise");
       done();
     });
   });
 
   it('testing hellopromise1', function(done) {
     httpHelper.createGet("/hellopromise1").getJson(function(err, result) {
-      assert(result.data == "hello promise1");
+      assert(result.data === "hello promise1");
       done();
     });
   });
 
   it('testing hello advanced', function(done) {
     httpHelper.createGet("/helloadvanced").getJson(function(err, result) {
-      assert(result.data == "hello advanced");
+      assert(result.data === "hello advanced");
       done();
     });
   });
 
   it('testing hello POST', function(done) {
     httpHelper.createPost("/hello").postJson({}, function(err, result) {
-      assert(result.data == "hello world POST");
+      assert(result.data === "hello world POST");
       done();
     });
   });
@@ -344,19 +344,19 @@ describe('testing nodetastic', function() {
 
   it('testing hello from path', function(done) {
     httpHelper.createGet("/path/hello").getJson(function(err, result) {
-      assert(result.data == "hello world from path");
+      assert(result.data === "hello world from path");
       done();
     });
   });
 
   it('testing urlparams', function(done) {
     httpHelper.createGet("/path/$12345/urlparams").getJson(function(err, result) {
-      assert(result.data.length == 1);
-      assert(result.data[0] == "12345");
+      assert(result.data.length === 1);
+      assert(result.data[0] === "12345");
       httpHelper.createGet("/path/$111/$222/urlparams").getJson(function(err, result) {
-        assert(result.data.length == 2);
-        assert(result.data[0] == "111");
-        assert(result.data[1] == "222");
+        assert(result.data.length === 2);
+        assert(result.data[0] === "111");
+        assert(result.data[1] === "222");
         done();
       });
     });
@@ -364,28 +364,28 @@ describe('testing nodetastic', function() {
 
   it('testing hello module1', function(done) {
     httpHelper.createGet("/rest/module1/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module1");
+      assert(result.data === "hello world module1");
       done();
     });
   });
 
   it('testing hello module1 from path', function(done) {
     httpHelper.createGet("/rest/module1/path/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module1 from path");
+      assert(result.data === "hello world module1 from path");
       done();
     });
   });
 
   it('testing hello module2', function(done) {
     httpHelper.createGet("/rest/module1/module2/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module2");
+      assert(result.data === "hello world module2");
       done();
     });
   });
 
   it('testing dynamic module2', function(done) {
     httpHelper.createGet("/rest/module1/module2/dynamic").getJson(function(err, result) {
-      assert(result.data == "dynamic");
+      assert(result.data === "dynamic");
       done();
     });
   });
@@ -393,14 +393,14 @@ describe('testing nodetastic', function() {
   it('testing noauth module2', function(done) {
     httpHelper.createGet("/rest/module1/module2/noauth").getJson(function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'authorization failed');
+      assert(result.errors[0].errorDetails === 'authorization failed');
       done();
     });
   });
 
   it('testing hello module2 from path', function(done) {
     httpHelper.createGet("/rest/module1/module2/path/hello").getJson(function(err, result) {
-      assert(result.data == "hello world module2 from path");
+      assert(result.data === "hello world module2 from path");
       done();
     });
   });
@@ -409,21 +409,21 @@ describe('testing nodetastic', function() {
     httpHelper.createGet("/non-exist").getJson(function(err, result) {
       console.log(JSON.stringify(result, null, 2));
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'could not find function');
+      assert(result.errors[0].errorDetails === 'could not find function');
       done();
     });
   });
 
   it('testing helloname mocha', function(done) {
     httpHelper.createGet("/helloname").getJson({strName: "mocha"}, function(err, result) {
-      assert(result.data == "hello world: mocha");
+      assert(result.data === "hello world: mocha");
       done();
     });
   });
 
   it('testing helloname mocha post', function(done) {
     httpHelper.createPost("/helloname").postJson({strName: "mocha"}, function(err, result) {
-      assert(result.data == "hello world: mocha");
+      assert(result.data === "hello world: mocha");
       done();
     });
   });
@@ -431,7 +431,7 @@ describe('testing nodetastic', function() {
   it('testing helloname without param', function(done) {
     httpHelper.createGet("/helloname").getJson(function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'param [strName] not supplied');
+      assert(result.errors[0].errorDetails === 'param [strName] not supplied');
       done();
     });
   });
@@ -439,14 +439,14 @@ describe('testing nodetastic', function() {
   it('testing helloint 1', function(done) {
     httpHelper.createGet("/helloint").getJson({nInt: 1}, function(err, result) {
       assert(result.state);
-      assert(result.data == "hello world: 1");
+      assert(result.data === "hello world: 1");
       done();
     });
   });
 
   it('testing helloobj', function(done) {
     httpHelper.createGet("/helloobj").getJson({objData: {data: "obj"}}, function(err, result) {
-      assert(result.data == "hello world: obj");
+      assert(result.data === "hello world: obj");
       done();
     });
   });
@@ -454,7 +454,7 @@ describe('testing nodetastic', function() {
   it('testing helloobj with invalid object', function(done) {
     httpHelper.createGet("/helloobj").getJson({objData: "invalid"}, function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'param validation failed name[objData] value[invalid]');
+      assert(result.errors[0].errorDetails === 'param validation failed name[objData] value[invalid]');
       done();
     });
   });
@@ -462,7 +462,7 @@ describe('testing nodetastic', function() {
   it('testing helloint with invalid type', function(done) {
     httpHelper.createGet("/helloint").getJson({nInt: "string"}, function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[string]');
+      assert(result.errors[0].errorDetails === 'param validation failed name[nInt] value[string]');
       done();
     });
   });
@@ -470,7 +470,7 @@ describe('testing nodetastic', function() {
   it('testing helloint with invalid type', function(done) {
     httpHelper.createGet("/helloint").getJson({nInt: {}}, function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'param validation failed name[nInt] value[{}]');
+      assert(result.errors[0].errorDetails === 'param validation failed name[nInt] value[{}]');
       done();
     });
   });
@@ -478,7 +478,7 @@ describe('testing nodetastic', function() {
   it('testing missing', function(done) {
     httpHelper.createGet("/missing").getJson(function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'param [$na] not supplied');
+      assert(result.errors[0].errorDetails === 'param [$na] not supplied');
       done();
     });
   });
@@ -486,7 +486,7 @@ describe('testing nodetastic', function() {
   it('testing zero', function(done) {
     httpHelper.createGet("/zero").getJson(function(err, result) {
       assert(result.success);
-      assert(result.data == "0 2 null");
+      assert(result.data === "0 2 null");
       done();
     });
   });
@@ -494,7 +494,7 @@ describe('testing nodetastic', function() {
   it('testing zerocb', function(done) {
     httpHelper.createGet("/zerocb").getJson(function(err, result) {
       assert(result.success);
-      assert(result.data == "0 2 null");
+      assert(result.data === "0 2 null");
       done();
     });
   });
@@ -502,7 +502,7 @@ describe('testing nodetastic', function() {
   it('testing zerocb', function(done) {
     httpHelper.createGet("/wrongnull").getJson(function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'param [$wrongnull] not supplied');
+      assert(result.errors[0].errorDetails === 'param [$wrongnull] not supplied');
       done();
     });
   });
@@ -510,7 +510,7 @@ describe('testing nodetastic', function() {
   it('testing cderror', function(done) {
     httpHelper.createGet("/cderror").getJson(function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].error == 'Circular dependency detected in reserved words for DynamicHttpLayer: $cd_root > $cd_child1 > $cd_child2 > $cd_root');
+      assert(result.errors[0].error === 'Circular dependency detected in reserved words for DynamicHttpLayer: $cd_root > $cd_child1 > $cd_child2 > $cd_root');
       done();
     });
   });
@@ -518,11 +518,11 @@ describe('testing nodetastic', function() {
   it('testing error', function(done) {
     httpHelper.createGet("/error").getJson(function(err, result, res) {
       assert(!result.success);
-      assert(result.errors[0].error == "error message");
+      assert(result.errors[0].error === "error message");
       assert(result.state);
       httpHelper.createGet("/errorraw").getJson(function(err, result, res) {
         assert(!result.success);
-        assert(result.errors[0].error == "error message");
+        assert(result.errors[0].error === "error message");
         assert(result.state);
         done();
       });
@@ -535,7 +535,7 @@ describe('testing nodetastic', function() {
       assert(res.headers.etag);
       var etag = res.headers.etag;
       httpHelper.createGet("/simplecash").addHeader("if-none-match", etag).get(function(err, result, res) {
-        assert(res.statusCode == 304); // cached response
+        assert(res.statusCode === 304); // cached response
         done();
       });
     });
@@ -547,7 +547,7 @@ describe('testing nodetastic', function() {
       assert(res.headers.etag);
       var etag = res.headers.etag;
       httpHelper.createGet("/simplecash1").addHeader("if-none-match", etag).get(function(err, result, res) {
-        assert(res.statusCode == 304); // cached response
+        assert(res.statusCode === 304); // cached response
         done();
       });
     });
@@ -559,7 +559,7 @@ describe('testing nodetastic', function() {
       assert(res.headers.etag);
       var etag = res.headers.etag;
       httpHelper.createGet("/simplecash2").addHeader("if-none-match", etag).get(function(err, result, res) {
-        assert(res.statusCode == 304); // cached response
+        assert(res.statusCode === 304); // cached response
         done();
       });
     });
@@ -568,7 +568,7 @@ describe('testing nodetastic', function() {
   it('testing passivecash', function(done) {
     httpHelper.createGet("/passivecash").getJson(function(err, result, res) {
       assert(result.success);
-      assert(res.headers["cache-control"] == "public, max-age=3600");
+      assert(res.headers["cache-control"] === "public, max-age=3600");
       done();
     });
   });
@@ -576,7 +576,7 @@ describe('testing nodetastic', function() {
   it('testing passivecash advanced', function(done) {
     httpHelper.createGet("/passivecashadvanced").getJson(function(err, result, res) {
       assert(result.success);
-      assert(res.headers["cache-control"] == "public, max-age=3660");
+      assert(res.headers["cache-control"] === "public, max-age=3660");
       done();
     });
   });
@@ -584,7 +584,7 @@ describe('testing nodetastic', function() {
   it('testing passivecash1', function(done) {
     httpHelper.createGet("/passivecash1").getJson(function(err, result, res) {
       assert(result.success);
-      assert(res.headers["cache-control"] == "public, max-age=60");
+      assert(res.headers["cache-control"] === "public, max-age=60");
       done();
     });
   });
@@ -595,7 +595,7 @@ describe('testing nodetastic', function() {
       assert(res.headers.etag);
       var etag = res.headers.etag;
       httpHelper.createGet("/etagcash").addHeader("if-none-match", etag).get(function(err, result, res) {
-        assert(res.statusCode == 304); // cached response
+        assert(res.statusCode === 304); // cached response
         done();
       });
     });
@@ -611,14 +611,14 @@ describe('testing nodetastic', function() {
   it('testing session', function(done) {
     httpHelper.createGet("/logout").getJson(function(err, result) {
       assert(!result.success);
-      assert(result.errors[0].errorDetails == 'invalid state, must be: loggedIn');
+      assert(result.errors[0].errorDetails === 'invalid state, must be: loggedIn');
       httpHelper.createGet("/login").getJson(function(err, result, res) {
         assert(result.success);
         var cookie = res.headers["set-cookie"];
         assert(cookie);
         httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
           assert(result.success);
-          assert(result.data == true);
+          assert(result.data === true);
           httpHelper.createGet("/logout").addHeader("cookie", cookie).getJson(function(err, result) {
             httpHelper.createGet("/islogin").addHeader("cookie", cookie).getJson(function(err, result) {
               assert(result.success);
@@ -635,7 +635,7 @@ describe('testing nodetastic', function() {
     httpHelper.createPost("/servercashset").postJson({objData: {"data": "cached"}}, function(err, result) {
       assert(result.success);
       httpHelper.createPost("/servercashget").postJson({objData: {"data": "cached"}}, function(err, result) {
-        assert(result.data && result.data.data == "cached");
+        assert(result.data && result.data.data === "cached");
         done();
       });
     });
@@ -644,10 +644,10 @@ describe('testing nodetastic', function() {
   it('testing setTemporaryHalt', function(done) {
     mapper.setTemporaryHalt({"data": "server is down"});
     httpHelper.createGet("/login").getJson(function(err, result) {
-      assert(result.data == "server is down");
+      assert(result.data === "server is down");
       httpHelper.createGet("/anything").getJson(function(err, result) {
         mapper.removeTemporaryHalt();
-        assert(result.data == "server is down");
+        assert(result.data === "server is down");
         done();
       });
     });
