@@ -32,7 +32,7 @@ process.on('uncaughtException', function(err) {
     log(config.crashLog);
   }
   catch(e) {
-    if(e && e.code == 'EACCES') {
+    if(e && e.code === 'EACCES') {
       try { log("./nodetastic-crash.log")} catch(e) {}
     }
   }
