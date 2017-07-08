@@ -7,7 +7,7 @@
 function HttpHelper(hostname, port, defaultHeaders) {
    this.IsHttpHelper = true;
    this.hostname = hostname;
-   if (this.hostname.lastIndexOf("/") == this.hostname.length - 1) {
+   if (this.hostname.lastIndexOf("/") === this.hostname.length - 1) {
       this.hostname = this.hostname.substring(0, this.hostname.length - 1);
    }
    this.port = port;
@@ -38,7 +38,7 @@ HttpHelper.prototype = {
       return options;
    },
    get: function(params, cb) {
-      if (arguments.length == 1)
+      if (arguments.length === 1)
          cb = params;
       var self = this;
       var options = self;
@@ -64,7 +64,7 @@ HttpHelper.prototype = {
       }).end();
    },
    getJson: function(params, cb) {
-      if (arguments.length == 1) {
+      if (arguments.length === 1) {
          cb = params;
          params = null;
       }
@@ -92,9 +92,9 @@ HttpHelper.prototype = {
    getGetParams: function(paramsObject) {
       var bodyStr = "";
       for (var k in paramsObject) {
-         if (bodyStr != "")
+         if (bodyStr !== "")
             bodyStr += "&";
-         if (typeof(paramsObject[k]) == "object")
+         if (typeof(paramsObject[k]) === "object")
             paramsObject[k] = JSON.stringify(paramsObject[k]);
          bodyStr += (k + "=" + encodeURI(paramsObject[k]));
       }
@@ -121,7 +121,7 @@ HttpHelper.prototype = {
             cb(e);
          })
       });
-      if (typeof(postData) == "object")
+      if (typeof(postData) === "object")
          postData = JSON.stringify(postData);
       postReq.write(postData);
       postReq.end();
@@ -176,7 +176,7 @@ HttpHelper.prototype = {
    copyFunctionsToo: function(options) {
       for (var e in HttpHelper.prototype) {
          var func = HttpHelper.prototype[e];
-         if (typeof(func) == "function") {
+         if (typeof(func) === "function") {
             options[e] = func;
          }
       }

@@ -48,7 +48,7 @@ function processGlobalConfig(config, configOverride, projectName) {
 
 while(!isDevMachine) {
   cwd = path.join(cwd, "../");
-  if(!cwd || cwd == "/") {
+  if(!cwd || cwd === "/") {
     break;
   }
   try {
